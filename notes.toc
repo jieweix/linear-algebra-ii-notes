@@ -1,0 +1,32 @@
+\contentsline {section}{\numberline {1}Reminders from MA106}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Field $K$}{1}{}%
+\contentsline {subsection}{\numberline {1.2}Vector space $V$ over field $K$}{2}{}%
+\contentsline {subsection}{\numberline {1.3}Linear map $T:V\rightarrow W$}{2}{}%
+\contentsline {subsection}{\numberline {1.4}Change of basis}{3}{}%
+\contentsline {subsection}{\numberline {1.5}Eigen-stuff}{3}{}%
+\contentsline {section}{\numberline {2}Spectral theory of endomorphisms, Jordan canonical form}{4}{}%
+\contentsline {subsection}{\numberline {2.1}Minimal polynomial}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Methods to calculate $\mu _{A}$}{6}{}%
+\contentsline {subsection}{\numberline {2.3}Jordan canonical form}{7}{}%
+\contentsline {subsection}{\numberline {2.4}General brute-force algorithm for computing the Jordan canonical form $J$ for a matrix $A\in \mathbb C^{n\times n}$ and an invertible matrix $P$ such that $P^{-1}AP=J$ if you know all the eigenvalues.}{11}{}%
+\contentsline {section}{\numberline {3}Functions of matrices}{13}{}%
+\contentsline {subsection}{\numberline {3.1}Solving systems of linear differential equations with constant coefficients using exponential function of a matrix}{15}{}%
+\contentsline {section}{\numberline {4}Bilinear maps and quadratic forms}{18}{}%
+\contentsline {subsection}{\numberline {4.1}Quadratic forms}{20}{}%
+\contentsline {subsection}{\numberline {4.2}Nice bases}{21}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}How to find such a basis for $\tau $/$q$? (which is not identically zero)}{22}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}Consequences of the existence of such nice bases for $K=\mathbb C$ or $\mathbb R$}{23}{}%
+\contentsline {subsection}{\numberline {4.3}Euclidean vector space and orthogonal transformations}{25}{}%
+\contentsline {subsection}{\numberline {4.4}Nice orthonormal bases/diagonalisation of self-adjoint operators}{27}{}%
+\contentsline {subsection}{\numberline {4.5}Geometry of quadrics in real Euclidean vector space}{29}{}%
+\contentsline {subsection}{\numberline {4.6}Singular value decomposition}{32}{}%
+\contentsline {subsection}{\numberline {4.7}The complex story}{34}{}%
+\contentsline {section}{\numberline {5}Structure theory of finitely generated abelian groups, Smith normal form}{34}{}%
+\contentsline {subsection}{\numberline {5.1}Definitions}{34}{}%
+\contentsline {subsection}{\numberline {5.2}Subgroups, cosets, quotient groups}{36}{}%
+\contentsline {subsection}{\numberline {5.3}First isomorphism theorem}{38}{}%
+\contentsline {subsection}{\numberline {5.4}Finitely generated free abelian groups}{39}{}%
+\contentsline {subsection}{\numberline {5.5}(Unimodular) Smith normal form for integer matrices, structure of finitely generated abelian groups}{40}{}%
+\contentsline {subsubsection}{\numberline {5.5.1}Motivation and preparation}{40}{}%
+\contentsline {subsubsection}{\numberline {5.5.2}Smith normal form}{42}{}%
+\contentsline {subsubsection}{\numberline {5.5.3}Structure of finitely generated abelian groups}{44}{}%

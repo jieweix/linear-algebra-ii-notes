@@ -1,0 +1,2292 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[all]{xy}
+\usepackage{color}
+\usepackage{geometry}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+
+\SelectTips{eu}{}
+\setlength{\fboxsep}{0pt}
+\setlength\parskip{0.3em}
+\setlength{\parindent}{0 pt}
+
+\newcommand{\Ker}{\text{Ker }}
+\newcommand{\adj}{\text{adj}\ }
+\newcommand{\lcm}{\text{lcm}\ }
+\newcommand{\id}{\text{id}}
+\newcommand{\im}{\text{im}}
+\newcommand{\spanset}{\text{span}}
+\newcommand{\rank}{\text{rank }}
+
+\theoremstyle{definition}
+
+\newtheorem{defn}{Definition}[subsection]
+\newtheorem{prop}[defn]{Proposition}
+\newtheorem{thm}[defn]{Theorem}
+\newtheorem{lemma}[defn]{Lemma}
+\newtheorem{coro}[defn]{Corollary}
+\newtheorem{example}[defn]{Example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+
+\title{MA251 Linear algebra II :: Lecture notes}
+\author{Lecturer: Christian Boehning}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+Topics
+\begin{itemize}
+	\item Spectral theory of endomorphisms
+	\item Bilinear forms
+	\item Excursion into linear algebra over $\mathbb Z$ 
+\end{itemize}
+Literature
+
+\begin{itemize}
+	\item Lecture notes on Moodle
+	\item Peter Lax. Linear algebra and its applications. Wiley
+\end{itemize}
+
+\section{Reminders from MA106}
+\subsection{Field $K$} 
+is a set with 2 maps:
+\begin{itemize}
+	\item ``+'' $K \times K \rightarrow K$
+	\item ``$\cdot$'' $K \times K \rightarrow K$
+\end{itemize} satisfying
+
+\begin{enumerate}
+	\item $a+(b+c)=(a+b)+c$ \qquad additive associativity
+	\item $\exists 0 \in K : \forall a \in K, 0+a=a$ \qquad unique $0_k$
+	\item $\forall a \in K$, $\exists (-a) \in K : a+(-a)=0$ \qquad additive inverse
+	\item $a+b=b+a$ \qquad additive commutativity
+	\item $(ab)c=a(bc)$ \qquad multiplicative associativity
+	\item $\exists 1 \in K : \forall a \in K, 1 \cdot a =a$ \qquad unique $1_k$ \quad [$0_k \neq 1_k$]
+	\item $\forall a \in K \{0\}$, $\exists a^{-1} : a \cdot a^{-1}=1$ \qquad multiplicative inverse
+	\item $ab=ba$ \qquad multiplicative commutativity
+	\item $a(b+c)=ab+ac$ \qquad distributive law
+\end{enumerate}
+or that it's an abelian group on $+$ and $\cdot$, which are connected by the distributive law.
+
+\begin{example}
+$\mathbb Q, \mathbb R, \mathbb C, \mathbb Z/p \mathbb Z$ ($\mathbb F_p$) where $p$ is prime are fields.
+$\mathbb F _2$ is the smallest field, thus defined:
+
+\begin{tabular}{l|ll}
++ & 0 & 1 \\ \hline
+0 & 0 & 1 \\
+1 & 1 & 0
+\end{tabular}
+\begin{tabular}{l|ll}
+$\times$ & 0 & 1 \\ \hline
+0 & 0 & 0 \\
+1 & 0 & 1
+\end{tabular}
+\end{example}
+
+\subsection{Vector space $V$ over field $K$}
+is a set with 2 maps
+\begin{itemize}
+	\item ``+'' $V \times V \rightarrow V$
+	\item ``$\cdot$'' $K \times V \rightarrow V$ \qquad scalar multiplication
+\end{itemize} satisfying
+\begin{enumerate}
+	\item $(V,+)$ is abelian
+	\item $\lambda (\mu v) = (\lambda \mu) v$
+	\item $\forall v \in V$, $1\cdot v=v$
+	\item $(\lambda +\mu)v = \lambda v + \mu v$
+	\item $\lambda (v+w) = \lambda v + \lambda u$ \qquad 2 forms of distributive laws 
+\end{enumerate}
+
+\begin{example}
+	$K^n$, $n\in \mathbb N$ ($n$-tuples with elements of $K$)
+\end{example}
+
+\begin{defn}
+	A \textit{basis} of $V$ is a subset $B \subset V$ such that any $v \in V$ is uniquely written as a linear combination of elements of $B$. If $B$ is finite, all basis have the same cardinality, called \textit{dimension} of $V$, dim $V$.
+\end{defn}
+
+\subsection{Linear map $T:V\rightarrow W$}
+is a map such that $\forall \alpha, \beta \in K, v,w\in V$, $T(\alpha v + \beta w) = \alpha Tv + \beta Tw$. [structure preserving]
+
+\begin{remark}
+	A lesson given by 20th century mathematics is that maps between objects are sometimes far more important than the objects themselves.
+\end{remark}
+
+\begin{example}
+\begin{enumerate}
+	\item $V=W=\mathbb R$, $T:x \mapsto x^2$ is not linear, but if $V=W=\mathbb F_2$ it would be. [in fact, identity]
+	\item $V=C ([0,1])$ (continuous functions on $[0,1]$), $W=\mathbb R$. Then $T: \int_0^1$ is linear.
+	\item $V=C^1 (\mathbb R)$ (continuously differentiable functions on $\mathbb R$), $W=C (\mathbb R)$. Then $T: \frac{\mathrm d}{\mathrm d x}$ is linear.
+\end{enumerate}
+\end{example}
+
+The \textit{matrix} of $T:V\rightarrow W$ where $V,W$ are $n$ and $m$-dimensional $K$-vector spaces with respect to bases $E,F$, notation $\mathcal M(T)_E^F$, is $m\times n$ and its entries $a_{ij}$ satisfy
+\[
+T(e_j)=\sum_{i=1}^m a_{ij} f_i ,
+\]
+and
+\[
+w_F=\mathcal M (T)_E^F \cdot v_E ,
+\]
+which actually makes matrix notation make sense. \\
+
+Matrix multiplication corresponds to composition of linear maps.
+
+With $U_A \xrightarrow{R} V_B \xrightarrow{S} W_C$ we can write
+\[
+\mathcal M (S\circ R)_A^C = \mathcal M (S)_B^C \cdot \mathcal (R)_A^B .
+\]
+
+\begin{example}
+	$V=K[x]_{\leq 2}$ (polynomials of deg $\leq 2$ with coefficients in $K$), $W=K[x]_{\leq 1}$, $T:\frac{\mathrm d}{\mathrm d x}$. Then $\mathcal M(T)_E^F$ where $E=(1,x,x^2)$, $F=(x,2)$ is
+\[
+\begin{pmatrix}
+		0 & 0 & 2 \\ 0 & \frac12 & 0
+	\end{pmatrix} .
+\]
+\end{example}
+
+\subsection{Change of basis}
+Question: given linear map $T:V \rightarrow W$, $\dim V=n$, $\dim W =m$, we have $\mathcal M(T)_E^F= A$ and another pair of bases $E',F'$ and $\mathcal M(T)_{E'}^{F'}= B$. How are $A$ and $B$ related?
+
+We can see it this way:
+
+\[
+V_{E'} \xrightarrow{\text{id}} V_E \xrightarrow{T} W_F \xrightarrow{\text{id}} W_{F'} ,
+\]
+so
+\[
+\mathcal M(T)_{E'}^{F'}=\mathcal M(\text{id})_F^{F'} \mathcal M(T)_E^F \underbrace{\mathcal M (\text{id})_{E'}^E}_{\text{writing vectors of }E' \text{ in those of }E}  \text{\quad i.e. \quad} B = Q^{-1} A P .
+\]
+Particularly, given $T:V\rightarrow V$ and bases $E$, $E'$, we say $A$ and $B$ are similar if we can write $B = P^{-1} A P$ where $P = \mathcal M (\text{id})_{E'}^E$.
+
+\subsection{Eigen-stuff}
+
+\begin{defn}
+	\textit{Eigenvalue} is a $\lambda \in K$ such that $\exists v \neq 0 : Tv=\lambda v$. $v$ is then a corresponding \textit{eigenvector}, which defines an invariant subspace.
+\end{defn}
+
+\begin{prop}
+	If $\lambda_1 \ldots \lambda_r$ are pairwise distinct eigenvalues of $T:V\rightarrow V$, then corresponding eigenvectors $v_1 \ldots v_r$ are linearly independent.
+\end{prop}
+
+\begin{proof}
+	Suppose $v_1 \ldots v_r$ are linearly dependent. Then $\exists a_1v_1+\cdots +a_rv_r=0$ where not all $a_i=0$. Choose one that involves minimum number of $v$'s [well-ordering principle] :
+\[
+b_1v_{i_1}+\cdots+b_sv_{i_s}=0, \quad s \leq r . \qquad (\ast)
+\]
+Applying $T$ to $\ast$,
+\[
+\lambda_{i_1} b_1v_{i_1}+\cdots +\lambda_{i_s} b_s v_{i_s} =0 .\qquad (\ast \ast)
+\]
+while multiplying $\ast$ by $\lambda_{is}$ and subtracting $\ast \ast$ give us
+\[
+(\lambda_{i_1}-\lambda_{is})bv_{i_1}+\cdots+(\lambda_{i_{s-1}}-\lambda_{i_s}) bv_{i_{s-1}}=0 .
+\]
+Since $\lambda_i$'s are distinct, the coefficients are non-zero, contradicting that $s$ is minimum. Therefore linear independency is proved.
+\end{proof}
+
+\begin{coro}
+$T:V\rightarrow V$ has $\dim V$ distinct eigenvalues $\Leftrightarrow$ it has a basis consisting of eigenvectors $\Leftrightarrow$ has a diagonal matrix (diagonalisable).
+\end{coro}
+
+\section{Spectral theory of endomorphisms, Jordan canonical form}
+\begin{itemize}
+	\item Question 1: Given 2 $n\times n$ matrices $A$, $B$. When are they similar?
+	\item Question 2: Given and $n$-dimensional $K$-vector space $V$ and a linear map $T:V\rightarrow V$. Is there a basis $E'$ with respect to which $\mathcal M(T)_{E'}^{E'}$ has a particularly \textit{simple} form?
+\end{itemize}
+
+Answer to Q1 are straight forward when $A$, $B$ are diagonalisable: they are similar if and only if their eigenvectors are the same: $\lambda_1=\mu_1, \lambda_2=\mu_2,\ldots \lambda_r=\mu_r$ and the dimensions of corresponding eigenspaces are the same: $\dim \Ker (A-\lambda_j I_n) = \dim \Ker (B-\mu_j I_n)$.
+
+What if they are not diagonalisable? We need stronger condition.
+
+\begin{defn}
+	Let $A$ be a $n\times n$ matrix and $\lambda_j$ an eigenvalue of $A$. Then for $i \in \mathbb N$, $\Ker \left( (A-\lambda_j I_n)^i \right)$ is called the \textit{generalised eigenspace} of index $i$, denoted $N_i (A_j, \lambda)$. A nonzero vector in this space is then called a \textit{generalised eigenvector}.
+\end{defn}
+
+So \begin{itemize}
+	\item the general answer to Q1 is that generalised eigenvectors are the same and dimensions of corresponding generalised eigenspaces are the same, $\forall j,i \in \mathbb N$;
+	\item the general answer to Q2 is that $V$ has $\dim V$ distinct generalised eigenvectors $\Leftrightarrow$ has a basis of generalised eigenvectors of $T$.
+\end{itemize}
+
+\subsection{Minimal polynomial}
+We have the characteristic polynomial $c_{A}(x)=\det (A-xI)$, but it's not able to detect diagonalisability. e.g., given $A = \begin{pmatrix}
+	1 & 0 \\ 0 & 1
+\end{pmatrix}$ and $B = \begin{pmatrix}
+	1 & 1 \\ 0 & 1
+\end{pmatrix}$, we have $c_{A}(x)=c_{B}(x)=(1-x)^2$, while $A$ is diagonalisable (it is already diagonal) and $B$ is not. But minimal polynomial $\mu_{A}(x)$ will be; it also classifies nilpotent endomorphisms (a power of which is zero).
+
+\begin{notation}
+	Given a polynomial $p \in \mathbb C [x]$, we have $p(A)$ where $A \in \mathbb C^{n \times n}$ which is a matrix: $\displaystyle \sum_{j=0}^n c_j A^j$.
+\end{notation}
+
+\begin{defn}
+	A polynomial is called \textit{monic} if the leading coefficient is 1.
+\end{defn}
+
+\begin{defn}
+The \textit{minimal polynomial} $\mu_{A}(x)$ is the unique, nonzero monic polynomial of the smallest degree such that it annihilates the matrix: $\mu_{A}(A)=0$.
+\end{defn}
+
+For this assertion to make sense we need to prove a couple of things.
+
+\begin{thm}
+	Given $A \in K^{n\times n}$, there exists a nonzero polynomial $p$ of degree at most $n^2$ such that $p(A)=0$.
+\end{thm}
+
+\begin{proof}
+	Note that $\dim K^{n\times n}=n^2$, so the $n+1$ vectors $I_n, A, A^2, \ldots , A^{n^2}$ is linearly dependent (has a nontrivial linear combination equal to 0), which gives us a polynomial.
+\end{proof}
+
+$n^2$ is actually too big, we can have a better bound.
+
+\begin{thm} [Cayley–Hamilton]
+	Given $A \in K^{n\times n}$, $c_{A}(A)=0$.
+\end{thm}
+
+\begin{remark} [before the proof]
+	Suppose we have 2 polynomials $P(x)=\sum_j P_j x^j$, $Q(x)=\sum_j Q_j x^j$ with coefficients $n \times n$ matrices, we can multiply them using the usual definition
+\[
+R(x) = P(x)Q(x)=\sum_l R_l x^l \text{ where } R_l=\sum_{j+k=l} P_j Q_k .
+\]
+If $A \in \mathbb C^{n\times n}$ is such that it commutes with all $Q_k$ ($A Q_k = Q_k A$), then we can substitute $A$ in without causing any harm: $R(A)=P(A)Q(A) .$
+
+	Recall the adjoint matrix $\adj M$ which satisfies $M \cdot \adj M = \adj M \cdot M = \det M \cdot I_n$, with entries $\adj M_{ij}=(-1)^{i+j} \det \underbrace{M_{ij}}_{M\text{ with row }j\text{ and column }i\text{ deleted}} .$ This makes sense for matrices with entries in any commutative ring, e.g. polynomials.
+\end{remark}
+
+\begin{proof}
+Let $Q(x):=A - x I_n$ and $P(x):= \adj Q(x)$. Then $P(x)Q(x)=\det (A-xI_n) \cdot I_n=c_{A}(x)I_n$. Therefore
+\[
+P(A)Q(A)=P(A)(A-A I_n)=0=c_{A}(A)I_n \Rightarrow c_{A}(A)=0 .
+\]
+\end{proof}
+
+It's tempting to substitute $A$ for $x$ in $\det (A-xI_n)$ which is of course $0$, however $\in K$ instead of $K^{n\times n}$, i.e. a scalar instead of a matrix.
+
+Now recall the definition of minimal polynomial and here's a sanity check for well-definedness.
+
+\begin{enumerate}
+	\item Set of nonzero $p$'s such that $p(A)=0$ is nonempty by Cayley–Hamilton. Thus by well-ordering principle there is a $p$ of minimal degree.
+	\item To make it monic we just scale it.
+	\item Uniqueness: if there were 2 distinct such $p,p'$ both nonzero, monic, of minimal degree $d$, then $p-p'$ is still nonzero but of smaller degree satisfying $p-p'(A)=p(A)-p'(A)=0$, a contradiction.
+\end{enumerate}
+
+\begin{prop}
+	If $q$ is any nonzero polynomial such that $q(A)=0$ then $\mu_{A}$ divides $q$.
+\end{prop}
+
+\begin{proof}
+	There is division with remainder (Euclidean algorithm for polynomials): $q=s\mu_{A}+r$ where $\deg r < \deg p$ or is 0. Since $A$ satisfies $p(A)=0$ and $\mu_{A}(A)=0$, it must be that $r(A)=0$. Hence $r=0$ since otherwise it's a contradiction to minimality of $\deg \mu_{A}$.
+\end{proof}
+
+\begin{prop}
+	$\mu_{A}$ and $c_{A}$ have the same roots, not counting multiplicities.
+\end{prop}
+
+\begin{proof}
+	We have $c_{A}(A)=0$ hence $\mu_{A} | c_{A}$. Therefore $\{\text{roots of }\mu_{A}\} \subset \{\text{roots of }c_{A}\} .$
+
+	Now suppose $\lambda \in \{\text{roots of }c_{A}\}$, i.e. an eigenvalue of $A$, then $\forall p \in \mathbb C [x]$, $p(A)v=p(\lambda )v .$ (exercise for assignment) Take $p=\mu_{A}$, then
+\[
+\mu_{A}(\lambda) v = \mu_{A}(A)v=0, v\neq 0 \Rightarrow \mu_{A}(\lambda)=0,
+\]
+i.e. $\{\text{roots of }c_{A}\} \subset \{\text{roots of }\mu_{A}\} .$
+\end{proof}
+
+\begin{example}
+	$\mu_{D}(x)$ of a diagonal matrix
+\[
+D=\begin{pmatrix}
+		d_1 & & 0 \\ & \ddots & \\ 0 & & d_n
+	\end{pmatrix} .
+\]
+We know that given any $p\in \mathbb C [x]$,
+\[
+p(D) = \begin{pmatrix}
+		p(d_1) & & 0 \\ & \ddots & \\ 0 & & p(d_n)
+	\end{pmatrix} .
+\]
+To make the degree minimal, suppose $\{d_1,\ldots,d_n\}=\{d_{i_1},\ldots,d_{i_k}\}$ with $d_{i_j}$'s pairwise distinct. Then
+\[
+\mu_{D}(x)=(x-d_{i_1})(x-d_{i_2})\cdots (x-d_{i_k}) .
+\]
+\end{example}
+
+\begin{prop}
+	$A$ is diagonal (or more generally $A$ is diagonalisable) $\Rightarrow$ $\mu_{A}$ has no multiple roots.
+\end{prop}
+
+We'll see later that these two are actually $\Leftrightarrow$. To say ``diagonalisable'' is fine since $p(SAS^{-1})=S_{\phi}(A)S^{-1} .$
+
+\begin{example}
+In the previous example that $I_2$ is diagonalisable and $B=\begin{pmatrix}
+	1&1\\0&1
+\end{pmatrix}$ is not, we have that $\mu_{I_2}=x-1$ and $\mu_{B}=(x-1)^2$.
+\end{example}	
+
+Question now is of course how to compute this $\mu_{A}$.
+
+\subsection{Methods to calculate $\mu_{A}$}
+
+\textbf{Method 1.} [It basically never works because it depends on the presence of a \textit{benign lecturer} who tells you how to factor the characteristic polynomial, while in practice it's very hard to know all the roots of which since the matrix could be huge. Of course when it works it works well.]
+
+\begin{example}
+	By some divine inspiration we know that $c_{A}=(x-2)(x-3)^3$ where
+\[
+A=\begin{pmatrix}
+		4 & 0 & -1 & -1 \\ 1 & 2 & 0 & 0 \\ 2 & -2 & 2 & -2 \\ -1 & 1 & 0 & 3
+	\end{pmatrix} .
+\]
+$\mu_{A}$ has to have roots $2,3$ and divide $c_{A}$, i.e.
+\[
+\mu_{A}=\left\{ \begin{aligned}
+		&(x-2)(x-3) \\ &(x-2)(x-3)^2 \\ &(x-2)(x-3)^3
+	\end{aligned} \right. ,
+\]
+and it turns out that it's the third one since $(A-2I_4)(A-3I_4),(A-2I_4)(A-3I_4)^2 \neq 0 .$
+\end{example}
+
+\textbf{Method 2.} which also makes sense of $\mu_T$ of a linear self-map $T:V\rightarrow V, \ \dim V=n$ (and $\mu_T=\mu_{A}$ for any $A$ representing $T$ with respect to some basis) and depends on
+\begin{lemma}
+	Given linear map $T:V\rightarrow V$ where $V$ is $n$-dimensional, assume $W_1,W_2,\ldots,W_k \subseteq V$ are finitely many $T$-invariant subspaces that span $V$ and $T=W_1+W_2+\cdots W_k .$ (not necessarily direct sum). Then
+\[
+\mu_T=\lcm (\mu_1,\mu_2,\ldots,\mu_k)
+\]
+where $\mu_i$ is the minimal polynomial of $\left. T \right|_{W_i}: W_i \rightarrow W_i$.
+\end{lemma}
+
+\begin{proof}
+	Let $f=\lcm (\mu_1,\mu_2,\ldots,\mu_k)$. We will prove $f|\mu_T$ and $\mu_T|f$. We write $f(x)=g_i(x)\mu_i(x)$. Let $v\in W_i$, then
+\[
+f(T)v=g_i(T)\mu_i(T)v=g_i\left(\left. T\right|_{W_i}\right)\underbrace{\mu_i \left(\left. T\right|_{W_i}\right)}_{0\text{ by definition of }\mu_i}v=0 ,
+\]
+but since $W_i$'s span $V$ we have $f(T)v=0 \ \forall v\in V ,$ i.e. $f(T)=0 \Rightarrow \mu_T |f$.
+
+	On the other hand, $\mu_T(T)=0$, so if $v\in W_i$ then $\mu_T(T)v=\mu_T\left(\left.T\right|_{W_i}\right)v=0 \Rightarrow \mu_T\left(\left.T\right|_{W_i}\right)=0 \Rightarrow \forall i, \mu_i |\mu_T \Rightarrow \lcm (\mu_i,\ldots \mu_k)=f(x)|\mu_T .$
+\end{proof}
+
+The \underline{algorithm} for $T:V\rightarrow V$ works like this:
+
+Pick any $v\in V\neq 0 $ and consider $W\subset V = \text{span} \left(v,Tv,T^2v,T^3v,\ldots \right)$ which is by construction $T$-invariant. Let $d\geq 1$ be the smallest positive integer such that $v,Tv,\ldots,T^dv$ are linearly dependent. This also means $v,Tv,\ldots,T^{d-1}v$ are linearly independent and $\deg \mu_{\left.T\right|_W} \geq d$ since if $p$ has $\deg \leq d-1$ then $p(T)v \neq 0$. In particular this means $\exists$ a nontrivial linear dependency relation
+\[
+T^dv+c_{d-1}T^{d-1}v+\cdots+c_1Tv+c_0v=0 ,
+\]
+the leading coefficient is nonzero by the linear independency of the $d-1$ vectors after. Then
+\[
+x^d+c_{d-1}x^{d-1}+\cdots+c_1 x+c_0 ,
+\]
+is the minimal polynomial $\mu_{\left. T\right|_W}(x)$. The algorithm proceeds as follows: put $W_1=W,v_1=v$. \begin{itemize}
+	\item If $W_1=V$, we are done.
+	\item If $W_1 \subsetneqq V$, pick any $v_2\in V\backslash W_1$ and proceed as before.
+\end{itemize}
+
+\subsection{Jordan canonical form}
+Now recall Definition 3 and 
+\begin{defn}
+	A \textit{Jordan chain} of length $k$ associated with eigenvalue $\lambda$ is an ordered $k$-tuple $(v_1,v_2,\ldots,v_k)$ where $v_i \in V$ with the following properties:
+	\begin{enumerate}
+		\item $0\neq v_k \in N_k(T,\lambda)\backslash N_{k-1}(T,\lambda)$
+		\item $(T-\lambda \ \text{id}_V)v_k=v_{k-1}$
+
+		$(T-\lambda \ \text{id}_V)v_{k-1}=v_{k-2} \quad \cdots$
+
+		$(T-\lambda \ \text{id}_V)v_2=v_1$
+
+		$(T-\lambda \ \text{id}_V)v_1= (T-\lambda \ \text{id}_V)^k v_k=0$
+		\item $v_i$'s are nonzero
+	\end{enumerate}
+\end{defn}
+Later we'll prove that $v_i$'s are linearly independent.
+
+Subspace $W=\text{span }(v_1,\ldots,v_k)\subset V$ is $T$-invariant. \underline{Question} is what is the matrix of $\left. T\right|_W:W\rightarrow W$ with respect to the basis $(v_1,\ldots,v_k)$? From the properties above, $v_1$ is just the usual eigenvector so $Tv_1=\lambda v_1$, and $v_2=v_1+\lambda v_2$, $v_3=v_2+\lambda v_3$ and so on. We hence write the $k\times k$ matrix
+
+\[
+\begin{pmatrix}
+	\lambda & 1 & 0 & & & 0 \\ 0 & \lambda & 1 \\ 0 & 0 & \lambda & 1 \\ 0& 0& 0 & \ddots & \ddots \\ \vdots & \vdots & \vdots & & & 1 \\ 0 & 0 & 0 & & &\lambda
+\end{pmatrix} ,
+\]
+with $\lambda$ on the diagonal, $1$ on the superdiagonal and $0$ elsewhere.
+\begin{defn}
+	The form described above called a \textit{Jordan block} of degree $k$, denoted $J_{\lambda,k}$.
+\end{defn}
+Now this is nice, but you can't expect an entire vector space to have a basis consisting of just a single Jordan chain; you put multiple together to form what's called Jordan basis:
+\begin{defn}
+	A \textit{Jordan basis} for $V$ (associated with $T$) is a basis that is a union of finitely many Jordan chains.
+\end{defn}
+\begin{thm}[Jordan canonical form]
+	Let $V$ be an $n$-dimensional vector space over $\mathbb C$ or algebraically closed field, let $T:V\rightarrow V$ be a linear self-map. Then\begin{enumerate}
+	    \item There exists a Jordan basis for $T$. This means if we order vectors in such a basis appropriately, then the matrix of $T$ will have a block diagonal form:
+\[
+\begin{pmatrix} J_{\lambda_1,k_1} & & & 0\\ & J_{\lambda_2,k_2} & \\ & & J_{\lambda_3,k_3} & \\0 & & & \ddots\end{pmatrix} .
+\]
+(where the blocks can be rearranged of course).
+	    \item The number of Jordan blocks for eigenvalue $\lambda$ and of degree at least $i$ ($i\geq 1$) is equal to
+\[
+\dim N_i(T,\lambda)-\dim N_{i-1}(T,\lambda),
+\]
+which means it is uniquely determined by $T$.
+	    \item We can read off the characteristic and minimal polynomials of the Jordan canonical form:
+\[
+c_T(x)=(-1)^n\prod (x-\lambda _i)^{a_i}
+\]
+and
+\[
+\mu_T(x)=\prod (x-\lambda _i)^{b_i}
+\]
+where $\lambda_i$ an eigenvalue of $T$, $a_i=$ sum of degrees of all Jordan blocks for $\lambda_i$ and $b_i=$ largest of the degrees. In particular, $T$ is diagonalisable iff $\mu_T$ does not have multiple roots, i.e. all $b_i=1$.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+    \item By induction on $\dim V=n$.
+    
+    When $n=1$ there's nothing to prove, $T$ is just scalar multiplication.
+    
+    Now suppose statement is true for $\dim < n$. Take an eigenvalue $\lambda$ of $T$. Consider $U=\im (T-\lambda \id_V)$ where $T-\lambda \id_V:V\rightarrow V$. Since the map has a nontrivial kernel, $\dim U=m<\dim V$ by rank-nullity theorem. Also $U$ is $T$-invariant, i.e. $u\in U \Rightarrow T(u)\in U$: let $u=(T-\lambda \id_V)(u')$ where $u' \in V$, then $T(u)=T\circ (T-\lambda \id_V)(u')=(T-\lambda \id_V) (T(u')) \in U$.
+    
+    Now consider $T_U=\left. T \right|_U : U\rightarrow U$. By induction hypothesis, there is a Jordan basis $e_1,\ldots,e_m$ for $U$ and $T_U$.
+    
+    Suppose there is $l$ Jordan chains associated with eigenvalue $\lambda$ among this basis. We want to extend these chains to chains for $T$. Suppose $w_1,\ldots,w_l$ are vectors in $V$ mapping under $T-\lambda \id_V$ to the last vectors in each of these $l$ Jordan chains.
+    
+    Consider $\Ker (T-\lambda \id_V)$ whose dimension is $n-m$ again by R-N theorem, i.e. eigenspace for $\lambda$ is $(n-m)$-dimensional and each of the first vectors in the $l$ Jordan chains above is in this eigenspace, since they are eigenvectors instead of generalised eigenvectors. So they span an $l$-dimensional subspace of the eigenspace associated with $\lambda$. Pick
+\[
+\underbrace{w_{l+1},\ldots,w_{n-m}}_{n-m-l\text{ eigenvectors that are not in }U\text{, hence are Jordan chains of length 1}} \in V
+\]
+completing the $l$ eigenvectors for $\lambda$ to be a basis for the eigenspace for $\lambda$. We claim
+\[
+\underbrace{w_1,\ldots,w_l,w_{l+1},\ldots,w_{n-m},e_1,\ldots,e_m}_{n\text{ vectors which is a disjoint union of Jordan chains}}
+\]
+are linearly independent, i.e.
+\[
+\alpha_1 w_1+\cdots+\alpha_l w_l+\alpha_{l+1} w_{l+1}+\cdots \alpha_{n-m} w_{n-m}+x=0\qquad (\ast)
+\]
+iff $\forall i, \alpha_i=0$ where $x\in U$. Apply $T-\lambda \id _V$ to $(\ast)$. The $n-m-l$ vectors in the middle are annihilated since they are eigenvectors. We then have
+\[
+\alpha_1 \underbrace{(T-\lambda \id_V)(w_1)}_{\text{last vector of the first Jordan chain } e_{i_1}}+\cdots+\alpha_l \underbrace{(T-\lambda \id_V)(w_l)}_{\text{of the }l\text{th chain } e_{i_l}}+\underbrace{(T-\lambda \id_V)(x)}_{\text{linear combination of }e_1,\ldots,e_m \backslash e_{i_1},\ldots,e_{i_l}}=0 .
+\]
+It follows that $\alpha_1=\cdots=\alpha_l=0$ and $(T-\lambda \id_V)(x)=0$, i.e. $x$ is an eigenvector for $\lambda$. We therefore have a Jordan basis for $T$.
+    \item If a matrix has block diagonal form, then dimension of kernel of matrix is sum of dimensions of kernels of blocks. So it suffices to prove for a single Jordan block $A = J_{\lambda,k}$. Consider $\dim \Ker (A-\lambda I_k)^i$.
+    
+    \begin{table}[h]
+    \begin{tabular}{r|llllllllll}
+        $i$ & 0 & 1 & 2 & $\cdots$ & $k-2$ & $k-1$ & $k$ & $k+1$ & $k+2$ & $\cdots$ \\
+        $\dim \Ker (A-\lambda I_k)^i$  & 0 & 1 & 2 & $\cdots$ & $k-2$ & $k-1$ & $k$ & $k$   & $k$   & $\cdots$
+    \end{tabular}
+    \end{table}
+    
+    Hence the number of Jordan blocks of precise degree $i$/size $i$ occurring in the Jordan canonical form for $T$ is
+\[
+\begin{aligned}
+        &\, (\underbrace{\dim N_i(T,\lambda)-\dim N_{i-1}(T,\lambda)}_{\geq i})-(\underbrace{\dim N_{i+1}(T,\lambda)-\dim N_{i}(T,\lambda}_{\geq i+1}))\\&=2\dim N_i(\lambda,T)-\dim N_{i-1}(T,\lambda)-\dim N_{i+1}(T,\lambda).
+    \end{aligned}
+\]
+    
+    \item Observe that if $M$ has block diagonal form
+\[
+\begin{pmatrix}M_1 & & & 0\\ & M_2 & & \\ & & \ddots & \\ 0 & & & M_r\end{pmatrix}
+\]
+where $M_i$ are some square matrices, then
+\[
+c_{M}=\prod_i c_{M_i}
+\]
+and
+\[
+\mu_{M}=\lcm (\mu_{M_1},\ldots,\mu_{M_i}) .
+\]
+The desired result follows immediately follows since $\mu_{J_{\lambda,k}}(x)=(x-\lambda)^k$ and $c_{J_{\lambda,k}}(x)=(-1)^k(x-\lambda)^k$.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+    If $\lambda_1,\ldots,\lambda_r$ are eigenvalues of $T:V\rightarrow V$, then $\forall i$,
+\[
+N_{i_1} (T,\lambda_{j}) \cap N_{i_2} (T,\lambda_{k})=\{0\}
+\]
+where $\lambda_i \neq \lambda_j$. More generally, if $\lambda_1,\ldots,\lambda_r$ are distinct, then the sum of the full generalised eigenspace associated with $\lambda_1,\ldots,\lambda_r$ is direct.
+    
+\[
+\begin{pmatrix}
+    J_{\lambda,1} & \\ & J_{\lambda,2}
+    \end{pmatrix}
+\]
+    
+    Suppose $A$ is a matrix in Jordan canonical form representing $T$ with respect to some Jordan basis.
+\[
+N_i (T,\lambda)=\Ker (T-\lambda \id_V)^i
+\]
+\[
+N_1(T,\lambda) \subseteq N_2(T,\lambda) \subseteq \cdots
+\]
+\[
+N_\infty (T,\lambda) = \bigcup_i N_i (T,\lambda)
+\]
+whose elements are generalised eigenvectors and spanned by the first $n_1$ vectors in the Jordan basis and $N_\infty (T,\mu)$ is spanned by he first $n_2$ vectors in the Jordan basis, etc.
+    
+    $p\in \mathbb [x]$, $T:V\rightarrow V$,
+\[
+N_p := \Ker (p(T)).
+\]
+Then if $p,q$ relatively prime,
+\[
+N_p \cap N_q=\{0\},
+\]
+i.e. $\exists r,s \in \mathbb [x]:rp+sq=1$. If $v\in N_p \cap N_q$ then
+\[
+(r(T)p(T)+s(T)q(T))v=v,
+\]
+and just apply this to $(x-\lambda)^i$ and $(x-\mu)^j$ for $\lambda,\mu$ eigenvalues of $T$.
+\end{remark}
+
+If $A$ is a $2\times 2$ matrix with $c_{A}(x)=\mu_{A}(x)=(x-\lambda)^2$, then the Jordan canonical form of $A$ is $\begin{pmatrix}\lambda & 1\\0& \lambda\end{pmatrix}$ since the maximum degree of the block is 2, the same size with the whole matrix, which is therefore a Jordan block itself. But if $\mu_{A}(x)=x-\lambda$ then the Jordan canonical form is $\begin{pmatrix}\lambda & 0\\0& \lambda\end{pmatrix}$, i.e. diagonalisable since $\mu_{A}$ has no multiple roots.
+
+\subsection{General brute-force algorithm for computing the Jordan canonical form $J$ for a matrix $A\in \mathbb C^{n\times n}$ and an invertible matrix $P$ such that $P^{-1}AP=J$ if you know all the eigenvalues.}
+\begin{enumerate}
+    \item Computing $J$ is straightforward. For an eigenvalue $\lambda$ of $A$, the number of Jordan blocks of size/degree $i$ in $J$ is $2\dim N_i(\lambda,T)-\dim N_{i-1}(T,\lambda)-\dim N_{i+1}(T,\lambda)$.
+    
+    Sometimes there are shortcuts for ``small'' $n$ using $c_{A}$ and $\mu_{A}$, but note that $\begin{pmatrix}J_{\lambda,3}&&\\ & J_{\lambda,3} & \\ & & J_{\lambda,1} \end{pmatrix}$ and $\begin{pmatrix}J_{\lambda,3}&&\\ & J_{\lambda,2} & \\ & & J_{\lambda,2} \end{pmatrix}$ share the same polynomials $c(x)=-(x-\lambda)^7$ and $\mu(x)=(x-\lambda)^3$ but their form are different.
+    
+    \item Computing $P$ is harder in general. Pick an eigenvalue $\lambda$, there are a number of Jordan blocks for $\lambda$ of degrees, say,
+\[
+N_1\geq N_2\geq \cdots \geq N_r \in \mathbb N .
+\]
+Pick $v\in V : (A-\lambda I)^{N_1} v=0$ but $(A-\lambda I_n)^{N_1-1}v\neq 0$. Put
+\[
+v_{1,1}=v, v_{1,2}=(A-\lambda I_n)v, v_{1,3}=(A-\lambda I_n)^2v, \ldots, v_{1,N_1}=(A-\lambda I_n)^{N_1-1}v,
+\]
+a Jordan chain of length $N_1-1$. If there's no $N_2$ we're done. If not, pick $v_{2,1}\in V:(A-\lambda I_n)^{N_2} v_{2,1}=0$, but
+\[
+(A-\lambda I_n)^{N_2-1} v_{2,1} \not\in \spanset \{v_{1,1},v_{1,2},\ldots,v_{1,N_1}\}.
+\]
+Then put $v_{2,2}=(A-\lambda I_n) v_{2,1}, \ldots ,v_{2,N_2}=(A-\lambda I_n)^{N_2-1} v_{2,1}$. If there's no $N_3$ we're done. If not, pick $v_{3,1}\in V:(A-\lambda I_n)^{N_3} v_{3,1}=0$ but
+\[
+(A-\lambda I_n)^{N_3-1} v_{3,1}\not\in \spanset \{v_{1,1},\ldots,v_{1,N_1},v_{2,1},\ldots,v_{2,N_2}\},
+\]
+and proceed similarly.
+    
+    Once we're done with $\lambda$, write the list of vectors produced in reverse order and continue with the next eigenvalue unless there are none left. Write these vectors into the columns of a matrix $P$. Then $P^{-1}AP=J$.
+\end{enumerate}
+The point of all this is: it can be done!
+
+\begin{example}
+\[
+A=\begin{pmatrix}
+-1 & -3 & -1 & 0\\ 0 & 2 & 1 & 0\\ 0 & 0 & 2 & 0\\ 0 & 3 & 1 & -1
+\end{pmatrix} .
+\]
+Then $c_{A}=(-1-x)^2 (2-x)^2$, i.e. eigenvalues $-1$ and $2$. Compute the dimensions of eigenspaces. For $\lambda=-1$:
+
+\[
+A+I_4=\begin{pmatrix}
+0 & -3 & -1 & 0\\ 0 & 3 & 1 & 0\\ 0 & 0 & 3 & 0\\ 0 & 3 & 1 & 0
+\end{pmatrix}
+\]
+which has a 2-dim column space and therefore 2-dim null space by rank-nullity theorem. We further have the two eigenvectors $v_1=\begin{pmatrix}1\\0\\0\\0\end{pmatrix},v_2=\begin{pmatrix}0\\0\\0\\1\end{pmatrix}$ which is in $\Ker (A-2I_4)$ and nonzero; and for $\lambda=2$:
+\[
+A-2I_4=\begin{pmatrix}
+-3 & -3 & -1 & 0\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 0\\ 0 & 3 & 1 & 3
+\end{pmatrix}
+\]
+which has a 3-dim column space and therefore 1-dim null space. $\Rightarrow$
+
+\[
+J=\begin{pmatrix}
+-1 & 0 & 0 & 0\\ 0 & -1 & 0 & 0\\ 0 & 0 & 2 & 1\\ 0 & 0 & 0 & 2
+\end{pmatrix} .
+\]
+To find $P$, find a vector $v_4\in \Ker (A-2I_4)^2$ but not in $\Ker (A-2I_4)$, and then $v_3=(A-2I_4)v_4$, then put $v_1,v_2,v_3,v_4$ in columns:
+\[
+P=\begin{pmatrix}
+1 & 0 & -1 & 0\\ 0 & 0 & 1 & 0\\ 0 & 0 & 0 & 1\\ 0 & 1 & \underbrace{1}_{v_3} & \underbrace{0}_{v_4}
+\end{pmatrix} .
+\]
+\end{example}
+
+\begin{example}
+\[
+A=\begin{pmatrix}
+3&2&1\\0&3&1\\-1&-4&-1
+\end{pmatrix},
+\]
+then $c_{A}=(2-x)^2(1-x)$ and $\mu_{A}=(x-2)^2 (x-1)$ (can be acquired by Cayley–Hamilton theorem and check the two possibilities). Hence
+\[
+J=\begin{pmatrix}
+2&1&0\\0&2&0\\0&0&1
+\end{pmatrix}
+\]
+Then we compute eigenvectors for $\lambda=1$, which gives $v_3=\begin{pmatrix}0\\1\\-2\end{pmatrix}$. Then find $v_2\in \Ker (A-2I_3)^2$ but not in $\Ker (A-2I_3)$, which gives, e.g. $v_2=\begin{pmatrix}2\\0\\-1\end{pmatrix}$, and $v_1=(A-2I_3)v_2=\begin{pmatrix}1\\-1\\-1\end{pmatrix}$. Then
+\[
+P=\begin{pmatrix}
+1&2&0\\-1&0&1\\1&1&-2
+\end{pmatrix} .
+\]
+\end{example}
+
+\section{Functions of matrices}
+Given a matrix $A\in \mathbb C^{n\times n}$, how do you compute $A^n$ for $n$ very large? $n=2022$ maybe?
+
+Where does that question occur naturally? It comes from theory of dynamical system where you may be interested in the behaviour of solutions to an ODE of the following form
+\[
+\dot x = f(x), \quad x(t) \in \mathbb R^n \quad f\in C (\mathbb R^n,\mathbb R^n)
+\]
+locally near an equilibrium (i.e. constant solution). $f$ may have a zero at $x\in \mathbb R^n$, $x(t)=x_0\ \forall t$. For this one linearises the equation near $x_0$ and choose coordinates such that $x_0=0$, giving $\dot x = Ax$ where $A\in \mathbb R^{n\times n}$, actually called the Jacobian. Then you discretise time (e.g. certain clicks of clock) which give us the problem $x(k+1)=Ax(k)$ which recursively defines vectors $x(0),x(1),\ldots \in \mathbb R^n$. For instance we can look at Fibonacci sequence, which is recursively defined, in this manner.
+
+This is a different part of mathematics which we'll not get into.
+
+So back to the algebraic question. If we know the Jordan canonical form $J$ for $A$ the question is easier. Then $A=PJP^{-1}$, so
+\[
+A^n=\underbrace{(PJP^{-1})(PJP^{-1})\cdots (PJP^{-1})}_{n\text{ times}}=PJ^nP^{-1} .
+\]
+So if $J=\begin{pmatrix}J_1 & & &\\& J_2 && \\ && \ddots & \\ &&&J_r \end{pmatrix}$ then $J^n=\begin{pmatrix}J_1^n & & &\\& J_2^n && \\ && \ddots & \\ &&&J_r^n \end{pmatrix}$. Easy, we just need to compute $J_{\lambda ,k}^n$ for single Jordan block $J_{\lambda ,k}$.
+
+\begin{example}
+We have $\begin{pmatrix}\lambda & 1\\ 0&\lambda \end{pmatrix}\begin{pmatrix}\lambda & 1\\ 0&\lambda \end{pmatrix}=\begin{pmatrix}\lambda^2 & 2\lambda\\ 0&\lambda^2 \end{pmatrix}$ and $\begin{pmatrix}\lambda & 1\\ 0&\lambda \end{pmatrix}^3=\begin{pmatrix}\lambda^3 & 3\lambda^2\\ 0&\lambda^3 \end{pmatrix}$ and hence by induction we can prove that $\begin{pmatrix}\lambda & 1\\ 0&\lambda \end{pmatrix}^n=\begin{pmatrix}\lambda^n & n\lambda^{n-1}\\ 0&\lambda^n \end{pmatrix}$.
+
+Also $\begin{pmatrix}\lambda & 1&0\\ 0&\lambda & 1\\0&0&\lambda \end{pmatrix}^n=\begin{pmatrix}\lambda^n & n\lambda^{n-1}&{n\choose 2} \lambda ^{n-2}\\ 0&\lambda^n & \lambda^{n-1}\\0&0&\lambda^n \end{pmatrix}$.
+\end{example}
+
+So the \underline{general answer} for $k\times k$ matrices is:
+\[
+\begin{pmatrix}
+\lambda & 1 & & 0 \\
+& \ddots & \ddots & \\
+&&& 1\\
+0& & &\lambda
+\end{pmatrix}^n = \begin{pmatrix}
+\lambda^n &{n\choose 1}\lambda^{n-1}&{n\choose 2}\lambda^{n-2}&\cdots&\cdots&{n\choose k-1}\lambda^{n-k+1}\\
+&\lambda^n &n\lambda^{n-1}&{n\choose 1}\lambda^{n-1}&\ddots&\\
+&&\lambda^n &n\lambda^{n-1}&{n\choose 1}\lambda^{n-1}&\ddots\\
+&&&\ddots &n\lambda^{n-1}&{n\choose 1}\lambda^{n-1}\\
+&&&&\lambda ^n &n\lambda^{n-1}\\
+0&&&&&\lambda ^n
+\end{pmatrix}
+\]
+i.e. you get $\lambda^n$ on the diagonal and ${n\choose i}\lambda^{n-i}$ on the $i$th diagonal above it.
+
+\begin{proof}[Handwavy proof]
+You could use induction, or consider
+\[
+v_{i+1}=\frac{x^i}{i!}e^{\lambda x},\quad i=0,\ldots,k-1
+\]
+which are $k$ smooth functions on $\mathbb R$. Now consider the vector subspace of the space of smooth functions $V=\spanset \{v_1,\ldots,v_k\}$ and look at the derivative map $\frac{\mathrm d}{\mathrm d x}:V\rightarrow V$ and the matrix of this with respect to $(v_1,\ldots,v_k)$ is $J_{\lambda ,k}$. So to compute $J_{\lambda ,k}^n$, we have to figure out what $\displaystyle \frac{\mathrm d^n}{\mathrm d x^n}$ does to $\displaystyle \frac{x^i}{i!}e^{\lambda x}$. We can use the generalised (binomial) product rule:
+\[
+\frac{\mathrm d^n}{\mathrm d x^n}(fg)=\sum_{j=0}^n {n\choose j} \frac{\mathrm d ^j}{\mathrm d x^j} (f) \frac{\mathrm d^{n-j}}{\mathrm d x^{n-j}} (g),
+\]
+which gives us entries of the matrix.
+\end{proof}
+
+There's a second method of computing high powers of matrices. Choose a polynomial $\Psi(x)\in \mathbb C[x]$ that satisfies $\Psi(A)=0$, i.e. a multiple of minimal polynomial $\mu_A(x)$ (e.g. $\mu_A(x)$ itself or $c_A(x)$. Then divide $f(x)=x^n$ by $\Psi(x)$ with remainder $h(x)$, i.e.
+\[
+f(x)=q(x)\Psi (x)+h(x)
+\]
+where $\deg h<\deg \Psi$ if $h\neq 0$. Then $f(A)=\underbrace{q(A)\Psi(A)}_0+h(A)=h(A)=A^n$. But the division is generally hard. An easy method to find $f(x)$ is \underline{Lagrange interpolation}. Suppose $\Psi(x)=\prod (x-\alpha_i)^{m_i}$, then $f$ have the same value and $(m_j-1)$th derivatives at $\alpha_j$ as $h$:
+\[
+f^{(t)}(\alpha_j)=h^{(t)}(\alpha_j),\quad j=1,\ldots,k,\quad t=1,\ldots,m_j-1 .
+\]
+These are $m_1+\cdots m_k$ equations for the $m_1+\cdots +m_k$ unknowns coefficients of $h$: solvable!
+\begin{example}
+We know $A=\begin{pmatrix}-2&0&0&0\\0&-2&1&0\\0&0&-2&0\\1&0&-2&-2\end{pmatrix}$, $J=\begin{pmatrix}-2&1&0&0\\0&-2&0&0\\0&0&-2&1\\0&0&0&-2\end{pmatrix}$ and $J=\begin{pmatrix}0&1&0&0\\0&0&1&0\\0&0&0&1\\1&0&-2&0\end{pmatrix}$. So $J=P^{-1}AP$ and $\mu_A(x)=(x+2)^2$. We have $A^n=PJ^nP^{-1}$ and $J^n=\begin{pmatrix}(-2)^n & n(-2)^{n-1} &0 & 0 \\ 0 & (-2)^n & 0&0 \\ 0&0&(-2)^n & n(-2)^{n-1} \\ 0&0&0&(-2)^n\end{pmatrix}$ and the rest is just computation.
+
+Lagrange interpolation is easier here. Let $\Psi(x)=\mu_A(x)=(x+2)^2$. So choose a lower degree remainder $h(x)=\alpha x+\beta$ which is linear, such that
+\[
+h(-2)=-2\alpha+\beta=(-2)^n
+\]
+and
+\[
+h'(-2)=\alpha=n(-2)^{n-1} .
+\]
+So
+\[
+h=n(-2)^{n-1}x+(1-n)(-2)^n,
+\]
+and therefore
+\[
+A^n=h(A)=n(-2)^{n-1}A+(1-n)2^n \cdot I_4
+\]
+which gives same answer almost immediately, without need to compute Jordan canonical form. [JCF is still significant theoretically!]
+\end{example}
+
+\begin{example}[Fibonacci numbers]
+$F_0=0,\ F_1=1,\ F_n=F_{n-1}+F_{n-2},\ n\geq 2$.
+
+We then have
+\[
+\begin{pmatrix}F_n \\F_{n+1}\end{pmatrix} = \begin{pmatrix}0&1\\1&1\end{pmatrix}\begin{pmatrix}F_{n-1}\\F_{n}\end{pmatrix}.
+\]
+So
+\[
+\begin{pmatrix}F_n \\F_{n+1}\end{pmatrix} = \underbrace{\begin{pmatrix}0&1\\1&1\end{pmatrix}^n}_{A^n}\begin{pmatrix}0\\1\end{pmatrix}.
+\]
+The characteristic polynomial
+\[
+c_A(x)=(-x)(1-x)-1=x^2-x-1
+\]
+gives roots
+\[
+\lambda=\frac{1+ \sqrt 5}{2},\quad \lambda_2=\frac{1- \sqrt 5}{2}=1-\lambda
+\]
+which are eigenvalues. (Golden ratio)
+
+Use interpolation to compute $A^n$. Choose $\Psi (x)=c_A(x)=\mu_A(x)=x^2-x-1$ (diagonalisable so equal) such that $\Psi(A)=0$. We want to write
+\[
+x^n=c_A(x) \cdot q(x) + \underbrace{h(x)}_{\text{remainder of degree }\leq 1} .
+\]
+So $h(x)=\alpha x+\beta$ such that
+\[
+h(\lambda)=\alpha \lambda + \beta=\lambda ^n
+\]
+and
+\[
+h(1-\lambda)=\alpha (1-\lambda)+\beta = (1-\lambda)^n
+\]
+which gives
+\[
+\left\{\begin{aligned}\alpha &=\frac{\overbrace{\lambda ^n-(1-\lambda)^n}^{\mu_n}}{\sqrt 5} \\ \beta &=\frac{\overbrace{\lambda^{n-1}-(1-\lambda)^{n-1}}^{\mu_{n-1}}}{\sqrt 5}\end{aligned}\right. .
+\]
+
+So
+\[
+A^n=h(A)=\frac{\mu_n}{\sqrt 5}A+\frac{\mu_{n-1}}{\sqrt 5} I_2 = \begin{pmatrix} 0 & \frac{\mu_n}{\sqrt 5} \\ \frac{\mu_n}{\sqrt 5}&\frac{\mu_n}{\sqrt 5} \end{pmatrix}+\begin{pmatrix}\frac{\mu_{n-1}}{\sqrt 5}&0\\0&\frac{\mu_{n-1}}{\sqrt 5}\end{pmatrix}=\begin{pmatrix}\frac{\mu_{n-1}}{\sqrt 5}&\frac{\mu_n}{\sqrt 5}\\\frac{\mu_n}{\sqrt 5}&\frac{\mu_n+\mu_{n-1}}{\sqrt 5}\end{pmatrix}
+\]
+and we conclude that $\displaystyle F_n=\frac{\mu_n}{\sqrt 5}$.
+\end{example}
+
+\subsection{Solving systems of linear differential equations with constant coefficients using exponential function of a matrix}
+\[
+v:\mathbb R \rightarrow \mathbb R^n,\ v(t)=\begin{pmatrix}v_1(t)\\ \vdots \\ v_n(t) \end{pmatrix}
+\]
+which is smooth satisfies
+\[
+\frac{d}{dt}v=\dot v = Av,\quad A\in \mathbb R^{n\times n},\quad v(0)=v_0\in \mathbb R^n ,
+\]
+i.e.
+\[
+\begin{pmatrix}\dot v_1(t)\\ \vdots \\ \dot v_n(t) \end{pmatrix}=\begin{pmatrix}a_{11}&\cdots & a_{1n}\\ \vdots & & \vdots \\ a_{n1} & \cdots & a_{nn}\end{pmatrix}=\begin{pmatrix}v_1(t)\\ \vdots \\ v_n(t) \end{pmatrix} .
+\]
+e.g.
+\[
+\begin{aligned}\dot v_1 &=-2v_1+3v_2\\ \dot v_2 &= 4v_1+e^{2\pi+ e+\sqrt 2} \end{aligned} .
+\]
+
+If $n=1$ solution is simply $v(t)=e^{tA}\cdot v_0$ where $A$ is just a real number. The hope is this is also the general solution once we make sense of powers of matrices $e^{tA}$, which is a $n\times n$ matrix whose entries smoothly depend on $t$.
+
+$t$ is not much of a problem so we need to define $e^A$ for $A\in \mathbb C^{n\times n}$ in general. There are at least 2 approaches, which turned out to be equivalent.
+\begin{enumerate}
+    \item We know $e^x$ is defined by power series $\sum \frac{x^n}{n!}$ and we know how to do polynomials of matrices, so we already know how to make sense of partial sums (which are $n\times n$ matrices). Standard guess is then
+\[
+e^A=I_n+A+\frac{A^2}{2!}+\frac{A^3}{3!}+\cdots \qquad (\ast)
+\]
+and hoping the limit converges. We can use the norm
+\[
+\|M\|=\sup \|Mv\|_2
+\]
+to know the answer of that (which is yes), but it's not of the interest of this module.
+    Suppose $J=P^{-1}AP$ is a Jordan canonical form of $A$. Then $A=PJP^{-1}$, so $Pe^JP^{-1}$ by substituting into $(\ast)$, which is easier since powers of Jordan canonical form are easier. Suppose
+\[
+J=J_{\lambda_1 ,k_1}\oplus J_{\lambda_2 ,k_2}\oplus \cdots \oplus J_{\lambda _t,k_t},
+\]
+then
+\[
+e^J=e^{J_{\lambda_1 ,k_1}}\oplus e^{J_{\lambda_2 ,k_2}}\oplus \cdots \oplus e^{J_{\lambda_t ,k_t}} .
+\]
+So we focus on single Jordan block
+\[
+A=J_{\lambda ,k}=\begin{pmatrix}\lambda & 1 & & 0 \\
+& \ddots & \ddots & \\
+&&& 1\\
+0& & &\lambda
+\end{pmatrix} .
+\]
+We already know $f(A)$ where $f$ is a power of $x$, $f(x)=x^N$:
+\[
+f(A)=\begin{pmatrix}
+f(\lambda) &f'(\lambda)&\frac{f''(\lambda)}{2}&\cdots&\cdots&\frac{f^{(k-1)}(\lambda)}{(k-1)!}\\
+&f(\lambda) &f'(\lambda)&\frac{f''(\lambda)}2&\ddots&\\
+&&f(\lambda) &f'(\lambda)&\frac{f''(\lambda)}2&\ddots\\
+&&&\ddots &f'(\lambda)&\frac{f''(\lambda)}2\\
+&&&&f(\lambda) &f'(\lambda)\\
+0&&&&&f(\lambda)
+\end{pmatrix} \qquad (\ast\ast)
+\]
+and
+\[
+f(J)=f(J_{\lambda _1,k_1})\oplus \cdots \oplus f(J_{\lambda _t,k_t}).
+\]
+We could use $(\ast\ast)$ to define $f(A)$ for any reasonably nice function $f$ (smooth at least).
+
+\item Write $A=PJP^{-1}$ where $J$ is a Jordan canonical form. Define
+\[
+f(A)=Pf(J)P^{-1}
+\]
+where
+\[
+f(J):=f(J_{\lambda _1,k_1})\oplus \cdots \oplus f(J_{\lambda _t,k_t})
+\]
+and finally define $f(J_{\lambda ,k})$ by $(\ast\ast)$.
+
+This agrees with $e^A$ for $f(x)=e^x$ as defined previously using limit of partial sums.
+\end{enumerate}
+
+Caveat: some rules such as $e^{B+C}=e^B e^C$ are not valid in general where $B,C$ are matrices. If they commute then valid.
+\begin{example}
+\[
+A=\begin{pmatrix}-2&0&0&0\\0&-2&1&0\\0&0&-2&0\\1&0&-2&-2\end{pmatrix},
+\]
+\[
+c_A(x)=(-2-x)^4,\quad \mu_A(x)=(x+2)^2 .
+\]
+Let's use interpolation to compute $e^A$. We have
+\[
+f(x)=q(x)\Psi(x)+h(x)
+\]
+where we choose $\Psi(x)=\mu_A(x)$ let $f(x)=e^x$, the function we are interested in.
+
+(We can actually divide power series by polynomial, which still gives a polynomial remainder of degree less than polynomial dividing. $q(x)$ would be a power series.)
+
+$h(x)$ then can be chosen to be linear: $h(x)=\alpha x+\beta$ such as
+\[
+h(-2)=-2\alpha +\beta = e^{-2}
+\]
+and
+\[
+h'(-2)=\alpha = e^{-2} ,
+\]
+which give us
+\[
+\left\{\begin{aligned}\alpha&=e^{-2}\\ \beta &= 3e^{-2} \end{aligned}\right.
+\]
+and therefore
+\[
+e^A=f(A)=h(A)=e^{-2}A+3e^{-2}I_4=\begin{pmatrix}
+    e^{-2} &0&0&0\\
+    0&e^{-2}&e^{-2}&0\\
+    0&0&e^{-2}&0\\
+    e^{-2}&0&-2e^{-2}&e^{-2}
+\end{pmatrix}
+\]
+which is much simpler computing involving change of basis matrix.
+\end{example}
+
+\begin{example}[Harmonic oscillator]
+\[
+y''(t)=-y(t)
+\]
+We look at the vector
+\[
+x(t)=\begin{pmatrix}y(t) \\ y'(t)\end{pmatrix}
+\]
+to rewrite the equation to system of linear equations
+\[
+x'(t)=\underbrace{\begin{pmatrix}0&1\\-1&0\end{pmatrix}}_{A}x(t) .
+\]
+We need to specify both $y(0),y'(0)$ to get a well-defined initial value problem. Now compute $e^{tA}$. Since $c_A(x)=\mu_A(x)=x^2+1$, eigenvalues of $A$ (and $tA$ for $t$ fixed) are $\pm i \in \mathbb C$. Let $f(x)=e^{tx}$. Again $h(x)=\alpha x+\beta$ such as
+\[
+h(i)=\alpha i+\beta = e^{ti}
+\]
+and
+\[
+h(-i)=-\alpha i+\beta = e^{-ti}
+\]
+which give us
+\[
+\left\{\begin{aligned}\alpha&=\frac{e^{ti}-e^{-ti}}{2i}=\sin t \\ \beta &= \frac{e^{ti}+e^{-ti}}{2}=\cos t \end{aligned}\right.
+\]
+So $e^{tA} = \sin t \begin{pmatrix}0&1\\-1&0\end{pmatrix}+\cos t \begin{pmatrix}1&0\\0&1\end{pmatrix} = \begin{pmatrix}\cos t&\sin t\\-\sin t&\cos t\end{pmatrix}$. Therefore
+\[
+\begin{pmatrix}y(t)\\y'(t)\end{pmatrix}=x(t)=\begin{pmatrix}\cos t&\sin t\\-\sin t&\cos t\end{pmatrix}\begin{pmatrix}y(0)\\y'(0)\end{pmatrix}
+\]
+$\Rightarrow y(t)=\cos t \cdot y(0)+\sin t\cdot y'(0) .$
+\end{example}
+
+\section{Bilinear maps and quadratic forms}
+\begin{defn}
+    $V,W$ vector spaces over $K$. A \textit{bilinear map} on $(V,W)$ is a map
+\[
+\tau :V\times W \rightarrow K
+\]
+such that for arbitrary (fixed) $v\in V$ the map $\tau (v,-): W\rightarrow K$ is linear, and for arbitrary (fixed) $w\in W$, $\tau (-,w):V\rightarrow K$ is linear.
+\end{defn}
+e.g. scalar product on $\mathbb R^n$
+
+Suppose $E=(e_1,\ldots,e_n)$ and $F=(f_1,\ldots,f_m)$ are ordered bases for $V,W$. Then we write
+\[
+v=\begin{pmatrix}x_1\\ \vdots  \\ x_n\end{pmatrix} \in V,\quad w=\begin{pmatrix}y_1\\ \vdots  \\ y_m\end{pmatrix}\in W
+\]
+where $v=\sum x_i e_i,\ w=\sum y_i f_i$. So
+\[
+\tau (v,w) = \tau \left(\sum x_i e_i, \sum y_i f_i \right)=\sum_{i=1}^n \sum_{j=1}^m x_i \tau (e_i,f_j) y_j .
+\]
+And if we define $\alpha_{ij} := \tau (e_i,f_j)$ and $A:= \left(\alpha_{ij}\right)$ which is a $m\times n$ matrix, then
+\[
+\tau (v,w)=v^T Aw .
+\]
+We conclude that bilinear maps correspond to $n\times m$ matrices $A$ after choice of ordered bases.
+
+What happens to $A$ if we change bases in $V,W$?
+
+Choose $E'=(e_1',\ldots,e_n'),\ F'=(f_1,\ldots,f_m')$. We have the change of basis matrix
+\[
+P=\mathcal M (\id _V)_{E'}^E \qquad \text{write }E' \text{ in columns in terms of }E
+\]
+and
+\[
+Q=\mathcal M (\id _V)_{F'}^F,
+\]
+then $Pv_{E'} = v_E$ and $Qw_{F'}=w_F$. So
+\[
+\tau (v,w) = v_E^T A w_F= \left(P v_{E'} \right)^T A \left(Qw_{F'} \right)=v_{E'}^T \left(P^T AQ\right)w_{F'} ,
+\]
+where $P^T AQ$ is the matrix of $\tau$ with respect to the new bases.
+
+Observe that $P,Q$ are invertible, so rank of matrix representing $\tau$ is independent of choice of bases. (Justifying the notion of rank of bilinear map $\tau$.)
+
+\begin{defn}
+    If $V=W$ (which happens frequently), we call such bilinear map $\tau$ a \textit{bilinear form} on $V$.
+\end{defn}
+Compare with linear map $-$ operator.
+
+If we change basis in $V$ using $P$, the matrix $A$ representing the bilinear form changes to
+\[
+P^TAP .
+\]
+Such $A$ are called congruent.
+
+\begin{defn}
+    Let $\tau :V\times W\rightarrow K$ be a bilinear map. Consider
+\[
+\{w\in W: \tau (v,w)=0 \ \forall v\in V\}.
+\]
+This is called the right \textit{radical} of $\tau$. Left radical is defined similarly:
+\[
+\{v\in V:\tau(v,w)=0 \ \forall w\in W\} .
+\]
+\end{defn}
+In terms of the matrix, since $\tau (v,w)=v_E \left(Aw_F\right)=\left(A^T v_E\right)^T w_F$, right radical is simply kernel of $A$, and left radical is kernel of $A^T$. They have the same dimension by rank-nullity theorem. (row rank $=$ column rank) In particular if $V=W$ and $\dim V=n$ and $\rank \tau =\rank A=r$, then $\dim \Ker A =\dim \Ker A^T=n-r$. \\
+
+We now want to classify bilinear forms since they are too general to study.
+\begin{defn}
+    Let $\tau : V\times V \rightarrow K$ be a bilinear form. We call $\tau$ \begin{itemize}
+        \item \textit{symmetric} if $\tau (v,w)=\tau (w,v) \ \forall v,w \in V$.
+        \item \textit{anti-symmetric} (or \textit{alternating/skew-symmetric}) if $\tau (v,v)=0 \ \forall v\in V$.
+        This implies
+\[
+\tau (v_1+v_2,v_1+v_2)=0=\tau (v_1,v_1) + \tau (v_2,v_2) -\tau (v_1,v_2)+\tau (v_2,v_1)=-\tau (v_1,v_2)+\tau (v_2,v_1)
+\]
+i.e. $\tau (v_1,v_2)=-\tau (v_2,v_1)$ which does not imply back unless $1+1=0$.
+        \begin{itemize}
+            \item Observation: $\tau$ is symmetric/anti-symmetric if and only if representing matrix $A$ is symmetric/anti-symmetric (latter means zeros along diagonal)
+        \end{itemize}
+    \end{itemize}
+\end{defn}
+
+\begin{prop}
+Suppose $2\neq 0$ in $K$. Then any bilinear form $\tau :V\times V\rightarrow K$ can be written uniquely as sum
+\[
+\tau = \tau^s+\tau^a
+\]
+where $\tau^s$ is symmetric and $\tau^a$ is anti-symmetric.
+\end{prop}
+\begin{proof}
+Define symmetrisation and anti-symmetrisation operators
+\[
+\mathcal S(\tau) (v,w) := \frac{\tau(v,w)+\tau(w,v)}{2},
+\]
+\[
+\mathcal A(\tau) (v,w) := \frac{\tau(v,w)-\tau(w,v)}{2},
+\]
+then $\mathcal S(\tau)$ itself is symmetric and $\mathcal A(t)$ is anti-symmetric, and
+\[
+\tau=\mathcal S(\tau)+\mathcal A(\tau).
+\]
+If $\tau = \tau^s+\tau^a$ is such a decomposition, then applying $\mathcal S$ gives
+\[
+\mathcal S(\tau) = \mathcal S(\tau^s)+0=\tau ^s
+\]
+and similarly $\mathcal A(\tau) = \tau ^a$ which proves uniqueness.
+\end{proof}
+
+\subsection{Quadratic forms}
+\begin{defn}
+$V$ is a vector space over $K$. A \textit{quadratic form} $q$ on $V$ is a map
+\[
+q:V\rightarrow K
+\]
+such that \begin{enumerate}
+    \item $q(\lambda v) = \lambda ^2 q (v) \quad \forall v\in V,\ \forall \lambda \in K$ 
+    \item $\tau_q (v,w) := q(v+w)-q(v)-q(w)$ is a symmetric bilinear form \begin{itemize}
+        \item This means $q(x_1b_1+x_2b_2)=q(x_1b_1)+q(x_2b_2)+\tau_q (x_1b_1,x_2b_2)=x_1^2 q(b_1)+x_2^2 q(b_2)+x_1x_2 \tau_q (b_1,b_2)$
+    \end{itemize}
+\end{enumerate}
+\end{defn}
+If $B=(b_1,\ldots,b_n)$ is a basis for $V$ and $v\sum_{i=1}^n x_i b_i$, then a quadratic form is just a general quadratic polynomial in the variables $x_i$:
+\[
+q(v)=\sum_{i,j=1}^n c_{ij} x_i x_j\quad c_{ij}\in K.
+\]
+e.g. for two variables
+\[
+3x_1^2+5x_1x_2+7x_2^2
+\]
+
+Given a symmetric bilinear form $\tau$, we can make a quadratic form
+\[
+q_\tau (v) :=\tau (v,v),\quad v\in V.
+\]
+But does $q_{\tau_q}$ where $\tau_q$ is defined above equal to $q$? Unfortunately not, it's $q(2v)-q(v)-q(v)=4q-2q=2q$. So similarly $\tau_{q_t}=2\tau$, i.e. symmetric bilinear forms are not equivalent to quadratic forms if $2=0$ in $K$. But if $2\neq 0$ then $\exists$ a 1-1 correspondence between the two:
+\[
+q\leadsto \frac12 \tau_q
+\]
+and
+\[
+\tau \leadsto q_\tau .
+\]
+From now on we assume $2\neq 0$. (e.g. $\mathbb Q,\ \mathbb R,\ \mathbb C,\ \mathbb F_3 )$.
+
+\subsection{Nice bases}
+\begin{thm}
+Suppose $\tau$ is a symmetric bilinear form on $V$ with associated quadratic form $q(v)=q_\tau (v)=\tau (v,v).$ Then $\exists$ a basis $b_1,\ldots ,b_n$ for $V$ such that $\tau (b_i,b_j) = \left\{\begin{aligned}0\quad i\neq j \\ \beta_i \quad i=j \end{aligned} \right.$ i.e. the matrix of $\tau$ in this basis is diagonal $\begin{pmatrix} \beta_1 & & & 0 \\ & \beta_2 & & \\ & & \ddots & \\ 0 & & & \beta_n\end{pmatrix}$. Equivalently, every symmetric matrix $A$ is congruent to a diagonal matrix ($\exists P$ invertible such that $P^TAP$ is diagonal). And equivalently, for any $q$, $\exists$ a basis $b_1,\ldots ,b_n$ such that
+\[
+q\left(\sum x_i b_i\right)=\sum \beta_i x_i^2 ,
+\]
+a simple sum of squares.
+\end{thm}
+\begin{proof} (by induction on $n=\dim V$)
+
+If $\tau (v,w)\equiv 0,\ \forall v,w\in V$ there's nothing to do.
+
+If $\tau \not\equiv 0$ then we can find a vector $b_1 : \tau (b_1,b_1)=q(b_1)\neq 0$. Define $\beta_i := \tau (b_i,b_i).$ Consider a subset
+\[
+W=\{v\in V : \tau (v,b_1)=0\} \quad \text{``orthogonal complement of } b\in V\text{ with respect to }\tau \text{''}
+\]
+If we have the linear map $\tau(-,b_1):V\rightarrow K,\ v\mapsto \tau(v,b_1)$ then $W$ is kernel of this map. We know $\tau (b_1,b_1)\neq 0$ so it's surjective. Hence $\dim W=\dim V-1$ by rank-nullity theorem. Apply induction hypothesis to $W$ and
+\[
+\left.\tau\right|_W : W\times W \rightarrow K
+\]
+then we're done: $\exists b_2,\ldots,b_n$ such that $\tau (b_i,b_j)=\left\{\begin{aligned}0\quad i\neq j \\ \beta_i \quad i=j \end{aligned} \right.$, $2\leq i,j \leq n$, so $\tau (b_i,b_j)=0$ for $i\geq 2$.
+\end{proof}
+Basically what we've done is constructing
+\[
+\begin{pmatrix}\beta_1 & 0 & \cdots & 0 \\ 0 \\ \vdots & & A \\ 0\end{pmatrix}
+\]
+and use our hypothesis to prove that $A$ is diagonal so that the whole matrix is too.
+
+\subsubsection{How to find such a basis for $\tau$/$q$? (which is not identically zero)}
+Suppose
+\[
+B=(\beta_i)_{1\leq i,j \leq n}
+\]
+is the matrix for $\tau$ with respect to some initially given basis $b_1,\ldots,b_n$ which is not good enough.
+
+We want to change basis $(b_1,\ldots,b_n)$ successively until we arrive at the basis as in Theorem 4.2.1.
+\begin{enumerate}
+\item How do we find $b_1' : \tau (b_1',b_1') =q(b_1')\neq 0$? There are 2 possibilities:\begin{itemize}
+    \item $\exists b_i : \tau (b_i,b_i)\neq 0$ then we can just set $b_1'=b_i$.
+    \item The other possibility is of course $\tau (b_i,b_i)=0 \ \forall i=1,\ldots,n$. But there exists $i,j: \tau (b_i,b_j) \neq 0$ since it's not identically zero. So put $b_1'=b_i+b_j$. Then $q(b_1')=\tau (b_1',b_1')=\tau(b_i,b_i)+\tau (b_j,b_j) + 2\tau (b_i,b_j)=2\tau (b_i,b_j)$ which is nonzero.
+\end{itemize}
+What does this mean in terms of quadratic forms? Suppose
+\[
+q(x_1,\ldots,x_n)=\beta_{11} x_1^2+\cdots \beta_{nn} x_n^2+2\beta_{12}x_1x_2+\cdots
+\]
+then we can have some $\beta_i \neq 0$, in that case we just declare that nonzero coefficient to be the new coordinate, but we can also have no squares and only mixed terms, then $\exists$ a mixed term $2\beta_{ij}x_ix_j$ such that $\beta_{ij}\neq 0$, so if we have
+\[
+x_i b_i+x_jb_j
+\]
+we can put $b_i'=b_i+b_j,\ b_j'=b_j$ then we can write it in new basis:
+\[
+x_i' b_i'+x_j' b_j' = (x_i)b_i'+(x_j-x_i)b_j',
+\]
+so $x_i'=x_i$ and $x_j'=x_j-x_i$, i.e. $x_i=x_i'$ and $x_j=x_j'+x_i'$, therefore $2\beta_{ij}x_ix_j$ is
+\[
+2\beta_{ij} (x_i')(x_j'+x_i')
+\]
+which gives a square!
+\item We can assume we have a basis $b_1,\ldots,b_n$ (different from the original) such that $\tau (b_i,b_i)\neq 0$. How do we get a basis for $W$?
+
+We want the basis satisfy $\tau (b_1,b_i)=0$ for $i=2,\ldots,n$.
+
+We write
+\[
+\tau \left(b_1,b_i-\frac{\beta_{1i}}{\beta_{11}}b_1 \right)=\tau(b_1,b_i)-\frac{\beta_{1i}}{\beta_{11}} \tau (b_1,b_1) = \beta_{1i}-\beta_{1i}=0 .
+\]
+Hence we have the basis
+\[
+b_1,b_2-\frac{\beta_{12}}{\beta_{11}}b_1,b_3-\frac{\beta_{13}}{\beta_{11}}b_1,\ldots,b_n-\frac{\beta_{1n}}{\beta_{11}}b_1
+\]
+for $W$.
+
+What does this mean in terms of quadratic forms? We have
+\[
+q(x_1,\ldots,x_n)=\underbrace{\beta_{11}x_1^2+2\beta_{12}x_1x_2+2\beta_{13}x_1x_3+\cdots +2\beta_{1n}x_1x_n}_{\text{all terms involving }x_{1}}+C
+\]
+where $x_i$ are new coordinates $C$ does not involve $x_1$ any more. We can now do a Babylonian trick, completing the square:
+\[
+q(x_1,\ldots,x_n) = \beta_{11} \left(\underbrace{x_1+\frac{\beta_{12}}{\beta_{11}}x_2+\cdots+\frac{\beta_{1n}}{\beta_{11}}x_n}_{\text{we declare this as }x_1'} \right)^2 +C'
+\]
+where $C'$ is some mess but also only involves $x_2,\ldots,x_n$, and then $x_2'=x_2,\ldots,x_n'=x_n$.
+
+\item At this point we have a basis for $V$ such that $\tau$ has matrix
+\[
+\begin{pmatrix}\ast & 0 & \cdots & 0 \\ 0 \\ \vdots & & A' \\ 0\end{pmatrix}
+\]
+where $A'$ is a $(n-1)\times (n-1)$ symmetric matrix. We then inductively proceed with $A'$, repeat until we're done.
+\end{enumerate}
+
+\subsubsection{Consequences of the existence of such nice bases for $K=\mathbb C$ or $\mathbb R$}
+\begin{prop}
+A quadratic form $q$ on n-dim vector space $V$ over $\mathbb C$ has the form
+\[
+q(x_1,x_2,\ldots,x_n)=x_1^2+x_2^2+\cdots+x_r^2
+\]
+with respect to a suitable basis $b_1,\ldots,b_n$ for $V$ where $r=$ rank of $q$ or $\tau_q$.
+\end{prop}
+\begin{proof}
+We can write
+\[
+q(y_1,\ldots,y_n)=\beta_1 y_1^2+\cdots+\beta_r y_r^2+\underbrace{\beta_{r+1}y_{r+1}^2 +\cdots +\beta_n y_n^2}_0 .
+\]
+And we introduce new coordinates $x_1=\sqrt{\beta_1}y_1,\ldots,x_r=\sqrt{\beta_r}y_r$ so that we get desired in proposition.
+\end{proof}
+The matrix looks like this:
+\[
+\begin{pmatrix}
+1 &  & 0 \\ & \ddots & & & 0 \\ 0 & & 1 \\ \\ & 0 & & & 0
+\end{pmatrix}
+\]
+\begin{thm}[Sylvester]
+A quadratic form $q$ on n-dim vector space $V$ over $\mathbb R$ has the form
+\[
+q(x_1,\ldots,x_n) = x_1^2+x_2^2+\cdots+x_t^2-x_{t+1}^2-\cdots -x_{t+u}^2
+\]
+with respect to a suitable basis, where $t+u=r=$ rank of $q$.
+\end{thm}
+The matrix looks like this:
+\[
+\begin{pmatrix}
+1 &&&&&&&&0 \\ & \underset{t}{\ddots} \\ && 1 \\ &&& -1 \\ &&&& \underset{u}{\ddots} \\ &&&&& -1 \\ &&&&&& 0 \\ &&&&&&& \underset{n-r}{\ddots}\\ 0&&&&&&&& 0
+\end{pmatrix}
+\]
+Basically because you are in real field you cannot get rid of negatives since you don't have $i$.
+
+\begin{thm}[Sylvester's law of inertia]
+Let $V$ be an $n$-dim vector space over $\mathbb R$, and $e_1,\ldots,e_n,\ e_1',\ldots,e_n'$ are bases such that
+\[
+q(x_1e_1+\cdots+x_ne_n)=x_1^2+\cdots+x_t^2-x_{t+1}^2-\cdots-x_{t+u}^2
+\]
+and
+\[
+q(x_1e_1'+\cdots+x_ne_n')=x_1^2+\cdots+x_{t'}^2-x_{t'+1}^2-\cdots-x_{t'+u'}^2 .
+\]
+Then $t=t',\ u=u'$, i.e. numbers of $+1$ and $-1$ are uniquely determined.
+\end{thm}
+\begin{proof}
+We know that $r$ is constant, so it suffices to show that $t=t'$. We prove it by contradiction. Without loss of generality, assume $t>t'$. Define
+    \[
+    V_1:=\spanset (e_1,\ldots,e_t)
+    \]
+    \[
+    V_2:=\spanset \left(e_{t'+1}',\ldots,e_n'\right)
+    \]
+    both subspaces of $V$. Now $q$ is positive on $V_1$, i.e. for $v\neq 0\in V_1$, $q(v)>0$, and for $v\in V_2$ $q(v)\leq 0$, so $V_1 \cap V_2=\{0\}$. We also know that $\dim V_1=t$ and $\dim V_2=n-t'$. So
+    \[
+    \dim (V_1+V_2)= \dim V_1+\dim V_2-\dim (V_1 \cap V_2)=t+n-t'>n ,
+    \]
+    a contradiction since $V_1+V_2 \subset V$.
+\end{proof}
+This justify the name ``signature'' of $q$ for the ordered pair $(t,u)$.
+
+\subsection{Euclidean vector space and orthogonal transformations}
+\begin{defn}
+If $t=n$ (no $-1$ or 0) then we call $\tau/q$ \textit{positive-definite}, since
+\[
+q(v)=\tau(v,v) >0 \qquad \forall v\neq 0 \in V.
+\]
+\end{defn}
+\begin{defn}
+In this case we call $(V,\tau)$ a \textit{Euclidean vector space}, $\tau$ the \textit{scalar product} of the space, and write
+\[
+\tau(v,w) =: v\cdot w \qquad \text{or sometimes }\langle v,w\rangle .
+\]
+\end{defn}
+\begin{defn}
+We call a basis
+\[
+e_1,\ldots,e_n:\tau(e_i,e_j) = \delta_{ij}=\left\{\begin{aligned}
+1 \quad i=j \\ 0 \quad i\neq j
+\end{aligned} \right.
+\]
+an \textit{orthonormal basis}. (i.e. length 1 (normal) and perpendicular (ortho-) to each other.) Such bases always exist by Sylvester's theorem.
+\end{defn}
+We can then write $v_E=V=\begin{pmatrix}
+x_1\\ \vdots \\ x_n
+\end{pmatrix} \in \mathbb R^n$ with $E=(e_1,\ldots,e_n)$. Then $\displaystyle v\cdot w=v^Tw = \sum_{i=1}^n x_i y_i$.
+\begin{notation}[Norm/length]
+    $|v| = \sqrt{\tau(v,v)} = \sqrt{v\cdot v}.$
+\end{notation}
+\begin{defn}
+The angle $\varphi$ between nonzero vectors $v,w$ is defined by
+\[
+\cos \varphi = \frac{v\cdot w}{|v||w|}
+\]
+where $0\leq \varphi < \pi$.
+\end{defn}
+So whenever you have a Euclidean space, you can talk about lengths and angles.
+
+\begin{thm}[Gram–Schmidt/orthonormalisation process]
+We start with $g_1,\ldots,g_n$, some basis of a Euclidean vector space. Then $\exists$ an orthonormal basis $f_1,\ldots,f_n$ such that $\spanset \{g_1,\ldots,g_i\}=\spanset \{f_1,\ldots,f_i\}$ for $1\leq i\leq n$, and $f_i$'s are constructed from the $g_i$'s as followed:
+\begin{enumerate}
+    \item Normalise the first vector: $f_1=\frac{g_1}{|g_1|}$
+    \item Inductively, assume $f_1,\ldots,f_r$ ($1\leq r <n$) have been constructed. We define
+    \[
+    f_{r+1}':=g_{r+1}-\sum_{i=1}^r \left(g_{r+1}\cdot f_i \right) f_i
+    \]
+    and normalise it: $f_{r+1}=\frac{f_{r+1}'}{|f_{r+1}'|}$.
+\end{enumerate}
+In particular, the basis change matrix
+\[
+\mathcal M(\text{id}_V)_{F=(f_1,\ldots,f_n)}^{G=(g_1,\ldots,g_n)}
+\]
+is upper triangular.
+\end{thm}
+\begin{proof}
+The equality of spans and normality of $f_{r+1}$ are by construction. We just need to check $f_{r+1}'$ is orthogonal to $f_1,\ldots,f_r$.
+
+Compute for $1\leq j \leq r$:
+\[
+\begin{aligned}
+f_{r+1}' \cdot f_j &= g_{r+1}\cdot f_j - \sum_{i=1}^r (g_{r+1}\cdot f_i)\overbrace{(f_i \cdot f_j)}^{\text{nonzero only when }i=j} \\
+&=g_{r+1}\cdot f_j-g_{r+1}\cdot f_j \cdot 1 = 0.
+\end{aligned}
+\]
+And we know $f_{r+1}$ is not zero by linear independence of $g_i$'s.
+\end{proof}
+
+\begin{coro}
+If $e_1,\ldots,e_k$ is an orthonormal set of vectors in $V$, it can always be completed to an orthonormal basis $e_1,\ldots,e_k,e_{k+1},\ldots,e_n$ for $V$.
+\end{coro}
+\begin{proof}
+We can always complete $e_1,\ldots,e_k$ to a basis by first year linear algebra, then Gram–Schmidt it.
+\end{proof}
+We now just need more definitions to see the usefulness of this process.
+\begin{defn}
+Given $(V,\tau)$ Euclidean, a linear map $T:V\rightarrow V$ is called \textit{orthogonal} if it preserves scalar product:
+\[
+T(v)\cdot T(w) = v\cdot w \qquad \forall v,w\in V.
+\]
+\end{defn}
+Suppose $A$ is the matrix of $T$ with respect to an orthonormal basis $E=(e_1,\ldots,e_n)$. We write $v_E=V,\ w_E=w$, and we have
+\[
+T(v)\cdot T(w) = (Av)^T (Aw) = v^TA^TAw = v^Tw.
+\]
+We see that this is only possible when $A^TA=I$:
+\begin{prop}
+$T$ is orthogonal if and only if its matrix $A$ with respect to some orthonormal basis satisfies
+\[
+A^TA=AA^T=I \Leftrightarrow A^T=A^{-1}.
+\]
+Not surprisingly we call such matrices \textit{orthogonal}.
+\end{prop}
+\underline{Observations}:
+\begin{itemize}
+    \item An orthogonal matrix has determinant $\pm 1$:
+    $(\det A)^2=\det(A^T)\det A=\det (A^TA)=\det I=1 .$
+    \item $T:V\rightarrow V$ is orthogonal if and only if given an orthonormal basis $e_1,\ldots,e_n$ the vectors $T(e_1),\ldots,T(e_n)$ are again an orthonormal basis
+\end{itemize}
+\begin{prop}[$QR$-decomposition]
+Given an $n\times n$ matrix $A\in \mathbb R^{n^2}$, we can write it as a product $A=QR$ where $Q$ is orthogonal and $R$ upper triangular.
+\end{prop}
+This gives us a faster algorithm solving $Ax=b$: we can just solve $Rx=Q^Tb$ without having to take inverses and do eliminations.
+\begin{proof}
+First assume $A$ is invertible. Then columns of $A$ give us a basis $G=(g_1,\ldots,g_n)$ for $\mathbb R^n$. Then consider standard basis $E=(e_1,\ldots,e_n)$ and we can view $A$ as a basis change matrix $\mathcal M (\text{id}_V)_G^E$. Now Gram–Schmidt $G$ to get an orthonormal basis $F$. So
+\[
+A=\mathcal M (\text{id}_V)_F^E \cdot \mathcal M (\text{id}_V)_G^F .
+\]
+Then $Q=\mathcal M (\text{id}_V)_F^E$ and $R=\mathcal M (\text{id}_V)_G^F$ have desired properties: $Q$ is orthogonal since the columns of $Q$ form an orthonormal set of vectors, and $\mathcal M (\text{id}_V)_F^G$ is upper triangular by Theorem 4.3.5, so $R$, its inverse, is also upper triangular.
+
+If $A$ is not invertible, we can write $A=A'R'$ with $A'$ invertible and $R'$ upper triangular. (Using row operations on $A$, which correspond to a sequence of multiplications by invertible matrices on the left, we can transform it into upper triangular form.) Then $A=QRR'$ by what's proved, where $RR'$ is also upper triangular.
+\end{proof}
+\begin{example}
+Given
+\[
+A=\begin{pmatrix}
+g_1 & g_2 & g_3
+\end{pmatrix} = \begin{pmatrix}
+-1 & 0 & -2\\ 2 & 0 & -1\\ 0 & -2 & -2
+\end{pmatrix}
+\]
+is non-singular. Then we Gram–Schmidt the columns of $A$:
+\[
+\begin{aligned}
+f_1&=\frac{g_1}{|g_1|} = \frac{1}{\sqrt 5} \begin{pmatrix}
+-1 \\ 2 \\ 0
+\end{pmatrix} \\
+f_2'&= g_2-(g_2\cdot f_1)f_1=\begin{pmatrix}
+0 \\ 0 \\ -2
+\end{pmatrix},\qquad f_2=\frac{f_2'}{|f_2'|}=\begin{pmatrix}
+0 \\ 0 \\ -1
+\end{pmatrix} \\
+f_3'&=g_3-(g_3\cdot f_1)f_1-(g_3\cdot f_2)f_2= \begin{pmatrix}
+-2 \\ -1 \\ -2
+\end{pmatrix}-2\begin{pmatrix}
+0 \\ 0 \\ -1
+\end{pmatrix} = \begin{pmatrix}
+-2 \\ -1 \\ 0
+\end{pmatrix} \\
+f_3&=\frac{f_3'}{|f_3'|} = \frac{1}{\sqrt 5}\begin{pmatrix}
+-2 \\ -1 \\ 0
+\end{pmatrix}
+\end{aligned}
+\]
+Then
+\[
+Q=\begin{pmatrix}
+-\frac{1}{\sqrt 5} & 0 & -\frac{2}{\sqrt 5} \\ \frac{2}{\sqrt 5} & 0 & -\frac{1}{\sqrt 5} \\ 0 & -1 & 0
+\end{pmatrix} \qquad R=\begin{pmatrix}
+\sqrt 5 & 0 & 0 \\ 0 & 2 & 2 \\ 0 & 0 & \sqrt 5
+\end{pmatrix}
+\]
+the latter by expressing $g_i$'s with $f_i$'s.
+\end{example}
+
+\subsection{Nice orthonormal bases/diagonalisation of self-adjoint operators}
+We saw in 4.2 that given a quadratic form $q$ on some vector space $V/K$ where $2\neq 0$ in $K$, $\exists$ a basis $b_1,\ldots,b_n$ of $V$ such that $q(x_1,\ldots,x_n) = \alpha_1 x_1^2 +\cdots +\alpha_n x_n^2$. Question now is if $V$ is Euclidean, do we have a similarly nice orthonormal basis? Answer is yes! Moreover, if we write $q(v)=\beta (v,v)$ and choose a basis for $V$ such that $\beta$ is represented by a symmetric matrix $A$, then this answer ``yes'' is equivalent to that $\forall A$ real symmetric, $\exists Q$ orthogonal such that $Q^TAQ$ is diagonal: $\begin{pmatrix}
+\alpha_1 & & 0\\ & \ddots & \\ 0 & & \alpha_n
+\end{pmatrix}$, and since $Q$ is orthogonal, this means the above diagonal matrix is also $Q^{-1}AQ$, implying that $\alpha_i$'s are the eigenvalues of $A$.
+
+But we'll see that the proof of this will be easier in a slightly different but equivalent language. Time for definitions.
+\begin{defn}
+Let $(V,\tau)$ be Euclidean. The \textit{adjoint} linear map to $T:V\rightarrow V$ is the unique linear map $T^\ast : V\rightarrow V$ such that $\forall v,w\in V,\ \tau (Tv,w) = \tau(v,T^\ast w)$.
+\end{defn}
+There's one way to justify this definition. Pick an orthonormal basis $E=(e_1,\ldots,e_n)$ and we have matrix $A$ with respect to this basis of $T$. Then we write $v,w$ in $E$ and want $(Av)^Tw = v^TA^\ast w$. We immediately see that we can just define $A^\ast=A^T$ since $(Av)^Tw = v^TA^Tw$. But this depends very much on choice of basis and doesn't tell us much of the behind the scenes.
+\begin{defn}
+The \textit{dual space} of $V$, denoted $V^\ast$, is the vector space of all linear forms (functionals) $l:V\rightarrow K$ on $V$.
+\end{defn}
+We can convince ourselves that $\langle \cdot,\cdot \rangle$ gives an isomorphism $V\xrightarrow{\sim}V^\ast$. So for fixed $w_0\in V$, $v\mapsto \langle Tv,w_0\rangle$ gives a linear form on $V$. Then $\exists v_0$ such that this is $l_{v_0}:=T^\ast w_0$ and $\langle T^\ast w_0,v\rangle = \langle v,T^\ast w_0 \rangle = \langle Tv,w_0 \rangle$. All this is to show that it's meaningless to talk about adjoint maps without notion of inner product.
+\begin{defn}
+$T$ is \textit{self-adjoint} if $T=T^\ast$.
+\end{defn}
+This means matrix $A$ of $T$ with respect to some orthonormal basis is symmetric.
+
+We will prove our result about quadratic forms (symmetric matrices) in the following form.
+
+\begin{thm}
+Given self-adjoint $T:V\rightarrow V$, $\exists$ an orthonormal basis of $V$ consisting of eigenvectors for $T$.
+\end{thm}
+We first need $T$ does have an eigenvector to start with.
+\begin{prop}
+Any real symmetric $n\times n$ matrix has a real eigenvalue. Moreover, all its eigenvalues are real.
+\end{prop}
+\begin{proof}
+Let $A:\mathbb C^n \rightarrow \mathbb C^n$. Then $A$ has complex eigenvalue $\lambda$ because characteristic polynomial has roots by FTA. So $Av=\lambda v$ where $v\in \mathbb C^n$. Now consider $\overline{v}\in \mathbb C^n$ and we have $\overline{A}\overline{v}=\overline{\lambda}\overline{v}$. But $A$ is real symmetric, i.e. $A=\overline{A}.$ So $\overline{\lambda}$ is also an eigenvector of $A$ with eigenvector $\overline{v}$. Now consider $\overline{v}^Tv$. This is positive since it's $\sum |v_i|^2$ and $v$ as an eigenvector is nonzero. So $(A\overline{v})^Tv = \overline{\lambda}\overline{v}^Tv = \overline{v}^TA^Tv = \overline{v}^TAv = \lambda \overline{v}^Tv$. Therefore $\lambda=\overline{\lambda}$.
+\end{proof}
+\begin{proof}[Proof of Theorem 4.4.4]
+By induction on $\dim V=n$.
+
+If $n=0$ there's nothing to do.
+
+For $n>0$, take an eigenvector $v\neq 0$ for $T$ with eigenvalue $\lambda$: $T(v)=\lambda v$. Let
+\[
+\begin{aligned}
+W &:=\text{orthogonal complement of }v\text{ with respect to given scalar product}\\&= \left\{ w\in V:v\cdot w=0 \right\}.
+\end{aligned}
+\]
+Then $\dim W=n-1$ (seen in proof of Theorem 4.2.1). So if we can prove that $W$ is $T$-invariant, i.e. $T(W)\subset W$, we're done, since $W$ is again Euclidean and $\left. T \right|_W$ is self-adjoint.
+
+This is easy. Take $w\in W$. Then $Tv \cdot w = \lambda (v\cdot w)=0=v\cdot Tw$ since $T$ is self-adjoint. So $Tw\in W$.
+\end{proof}
+
+Right. So how do we find $Q$?
+
+\begin{prop}
+Suppose $A$ is real symmetric $n\times n$ and we have distinct eigenvalues $\lambda,\mu$ with associated eigenvectors $v,w$. Then $v^Tw=0$.
+\end{prop}
+\begin{proof}
+Consider $(Av)^Tw$. By construction it's $\lambda v^Tw$. On the other hand, since $A$ is symmetric, it's $v^TA^Tw = v^T Aw = \mu v^Tw$. But $\lambda \neq \mu$, so $v^Tw$ must be zero.
+\end{proof}
+\subsection{Geometry of quadrics in real Euclidean vector space}
+Consider $\mathbb R^n$ with the standard scalar product (or generally a Euclidean vector space $V$) and $x_1,\ldots,x_n$ coordinates. Look at zero sets of the form
+\[
+\sum_{i=1}^n a_i x_i^2 + \sum_{1\leq i\leq j \leq n} \alpha_{ij}x_ix_j + \sum_{i=1}^n \beta_i x_i + \gamma =0, \tag{$\ast$}
+\]
+e.g. $\mathbb R^4$ with $x_1,x_2,x_3,x_4$ coordinates and we look at $3x_1^2+5x_4^2+10x_1x_3+x_2x_4+3x_1+5x_4+1001=0$. We want to classify the zero sets given like this up to isometries, up to change of coordinates of the form
+\[
+\begin{pmatrix}
+x_1' \\ \vdots \\ x_n'
+\end{pmatrix} = \underbrace{A}_{\text{orthogonal}}\begin{pmatrix}x_1\\ \vdots \\ x_n\end{pmatrix} + \underbrace{b}_{\text{a ``translation'' vector}} .
+\]
+These zero sets are called (affine, real) quadrics, but be careful these could be counter intuitive, e.g. in $\mathbb R^2$, $x^2+y^2=-1$ is empty, or $x^2+y^2=0$ is a single point.
+
+We do this step by step. (Instead of adding apostrophes crazily, we simply call the new coordinates $x_i$ after each step.)
+
+\begin{enumerate}
+    \item Using an appropriate isometry (with $b=0$) we can assume that the quadratic part of $(\ast)$ is a sum of squares by Theorem 4.2.1.
+    
+    e.g. $x^2+xy+y^2+$ (linear form in $x,y)+$ constant. We can't just Babylonianly complete the square: indeed $x^2+xy+y^2=\left(x+\frac12 y\right)^2 +\frac34 y^2$, but this is not an orthogonal coordinate transformation.
+    
+    Note that $x^2+xy+y^2=(x,y) \begin{pmatrix}
+    1 & \frac12 \\ \frac12 & 1
+    \end{pmatrix} \begin{pmatrix}
+    x \\ y
+    \end{pmatrix}$, and the matrix has eigenvalues $\frac32,\ \frac12$ with corresponding (normal) eigenvectors $\frac{1}{\sqrt 2} \begin{pmatrix}
+    1 \\ 1
+    \end{pmatrix},\ \frac{1}{\sqrt 2} \begin{pmatrix}
+    1 \\ -1
+    \end{pmatrix}$. (We can check this also verifies Proposition 4.4.6.) Then let
+    \[
+    \begin{aligned}
+    x&:=\frac{1}{\sqrt 2} (x'+y') \\
+    y&:=\frac{1}{\sqrt 2} (x'-y')
+    \end{aligned}
+    \] and we have
+    \[
+    \begin{aligned}
+    x^2+xy+y^2 &= \frac{\left(x'\right)^2+2x'y'+\left(y'\right)^2+\left(x'\right)^2-\left(y'\right)^2+\left(x'\right)^2-2x'y'+\left(y'\right)^2}{2} \\
+    &= \frac{3}{2}\left(x'\right)^2+\frac{1}{2}\left(y'\right)^2
+    \end{aligned}
+    \]
+    and again we can verify that the coefficients are precisely the eigenvalues.
+    \item At this point we can assume the equation is of the form
+    \[
+    \sum_{i=1}^n a_i x_i^2 + \sum_{i=1}^n \beta_i x_i + \gamma =0 .
+    \]
+    If one of the $\alpha_i$'s, $\alpha_r$, is nonzero, we can eliminate the summand $\beta_r x_r$ in the linear form. Particularly, we have
+    \[
+    \cdots + \alpha_r x_r^2 + \cdots + \beta_r x_r +\cdots
+    \]
+    and if we let
+    \[
+    x_r:=x_r' - \frac{\beta_r}{2\alpha_r}
+    \]
+    so that the other $x_i$'s remain unchanged ($x_i'=x_i$) and $x_r'=x_r+\frac{\beta_r}{2\alpha_r}$; then we have
+    \[
+    \begin{aligned}
+    &\quad \ \cdots + \alpha_r \left(x_r' - \frac{\beta_r}{2\alpha_r}\right)^2 + \cdots + \beta_r \left(x_r' - \frac{\beta_r}{2\alpha_r}\right) +\cdots \\
+    &= \cdots+\alpha_r \left(x_r'\right)^2 - 2\alpha_r x_r' \frac{\beta_r}{2\alpha_r} + \frac{\alpha_r\beta_r^2}{4\alpha_r^2} + \cdots + \beta_r x_r' - \frac{\beta_r^2}{2\alpha_r} + \cdots \\
+    &= \cdots + \alpha_r \left(x_r'\right)^2 + \frac{\alpha_r\beta_r^2}{4\alpha_r^2} + \cdots - \frac{\beta_r^2}{2\alpha_r} + \cdots .
+    \end{aligned}
+    \]
+    \item After possible re-indexing the $x_i$'s we reach the form
+    \[
+    \alpha_1 x_1^2 + \cdots + \alpha_r x_r^2 + \underbrace{\beta_{r+1} x_{r+1} + \cdots + \beta_{r+s} x_{r+s}}_{\text{linear form}} + \gamma =0.
+    \]
+    where $\alpha_i$'s are nonzero. If the linear form is nonzero we change the coordinate with
+    \[
+    \begin{array}{cccc}
+        x_1 & \cdots & x_r & \displaystyle \frac{1}{\sqrt{\sum_{i=1}^s \beta_{r+i}^2}} \left(\sum_{i=1}^s \beta_{r+i}x_{r+i} \right) \\
+        \| & & \| & \| \\
+        x_1' & \cdots & x_r' & x_{r+1}'
+    \end{array}
+    \]
+    and $x_i'$'s form a orthonormal set. We then extend it to a basis, then Gram–Schmidt it to get an orthonormal basis $x_1',\ldots,x_{r+1}',\ldots,x_n'$. Now the linear form is just $\beta x_{r+1}'$.
+    \item Dividing by the coefficient of the linear form (if there is one) we can now have the form
+    \[
+    \sum_{i=1}^r \alpha_i x_i^2 -x_{r+1} + \gamma =0.
+    \]
+    In this case we can eliminate $\gamma$ by a further translation
+    \[
+    x_{r+1}:=x_{r+1}'+\gamma .
+    \]
+\end{enumerate}
+From this we get
+\begin{thm}
+After a suitable isometry/change of coordinates/rigid motions, we can write $(\ast)$ as either
+\begin{enumerate}
+    \item $\displaystyle \sum_{i=1}^r \alpha_i x_i^2=0$ \qquad case where linear form is eliminated after 2. and $\gamma=0$
+    \item $\displaystyle \sum_{i=1}^r \alpha_i x_i^2=1$ \qquad case where linear form is eliminated and $\gamma\neq 0$
+    \item or $\displaystyle \sum_{i=1}^r \alpha_i x_i^2 - x_{r+1}=0$ \qquad case where linear form is not eliminated
+\end{enumerate}
+where $1\leq r\leq n$ and $\alpha_i$'s are nonzero.
+\end{thm}
+
+What kind of geometrical shapes do these define? (for $n=2,\ n=3$)
+
+In $\mathbb R^2$ we can then further classify 9 different cases - we subsume two equations in 1. 2. 3. in the same case if one arises from the other by
+\begin{enumerate}
+    \item[(A)] rescaling the length scales along the axes
+    \item[(B)] permutation of coordinates
+    \item[(C)] dividing by constant $(-1)$;
+\end{enumerate}
+also $\alpha_i>0$:
+\begin{enumerate}
+    \item $\alpha x^2=0$ \qquad the $y$-axis
+    \item $\alpha x^2=1$ \qquad two parallel lines $x=\pm \frac{1}{\sqrt \alpha}$
+    \item $-\alpha x^2=1$ \qquad empty
+    \item $\alpha x^2+\beta y^2=0$ \qquad the single point $(0,0)$
+    \item $\alpha x^2-\beta y^2=0$ \qquad two lines $y=\pm \sqrt{\frac{\alpha}{\beta}}x$
+    \item $\alpha x^2+\beta y^2=1$ \qquad ellipse
+    \item $\alpha x^2-\beta y^2=1$ \qquad hyperbola
+    \item $-\alpha x^2-\beta y^2=1$ \qquad empty
+    \item $\alpha x^2-y=0$ \qquad parabola
+\end{enumerate}
+
+In $\mathbb R^3$ things get interesting. We get again the previous 9 cases, but now viewed as equations in 3 variables $x,y,z$ only not involving $z$ (cylinders). Further we have
+\begin{enumerate}
+    \setcounter{enumi}{9}
+    \item $-\alpha x^2-\beta y^2-\gamma z^2=1$ \qquad empty
+    \item $\alpha x^2+\beta y^2+\gamma z^2=0$ \qquad the single point $(0,0,0)$
+    \item $\alpha x^2 + \beta y^2 - \gamma z^2=0$.
+    
+    What's this? Let's assume $\alpha=\beta=\gamma=1$ for simplicity, then we get the general from this. If we intersect the shape with $z=c$ we get a circle $x^2+y^2=c^2$, and if we intersect it with $y=0$ we get two lines $x-z=x+z=0$ going through the origin, so this is a cone. (These lines are sometimes called the generator of the cone.) More generally - rescaling by, say, $\begin{pmatrix}
+    d_1 & 0 & 0 \\ 0 & d_2 & 0 \\ 0 & 0 & d_3
+    \end{pmatrix}$ - this is an elliptical cone.
+    \item $\alpha x^2+\beta y^2+\gamma z^2=1$
+    
+    We get a sphere when $\alpha=\beta=\gamma=1$, so generally we get an ellipsoid - a stretched sphere. This one doesn't have generators.
+    \item $\alpha x^2+\beta y^2-\gamma z^2=1$
+    
+    Again consider $x^2+y^2-z^2=1$. Again restricting $z=c$ we get circles, and when $y=0$ we get a hyperbola going through $x=\pm 1$ when $z=0$, so we have a hyperboloid. Since it's connected it's called hyperboloid of one sheet. The generators are not obvious but there are two families of them and every point lies on exactly one of the lines of the two families.
+    
+    \item $\alpha x^2-\beta y^2-\gamma z^2=1$
+    
+    Again when $y=0$ we have the same hyperbola. But restricting $x=c$, then if $c^2< 1$ it's empty, and if $c^2\geq 1$ we get circles. So it's still hyperboloid, but disconnected, so it's called hyperboloid of two sheets. (The hyperbola's other side of that of one sheet.)
+    \item $\alpha x^2+\beta y^2-z=0$
+    
+    We get nothing below $z=0$ and above it we have circles bounded by parabola. So in general we have what's called elliptical paraboloid.
+    
+    \item $\alpha x^2-\beta y^2-z=0$
+    
+    Restricting $y=0$ we have $z=x^2$ and restricting $x=0$ we have $z=-y^2$. So we get a (monkey (?)) saddle (hyperbolic paraboloid) and the origin is called the saddle point. Again we have 2 families of generators, meaning having 2 lines passing through each point. (Restricting $z=c$ we have two lines $x+y=x-y=z.$) See notes for details.
+\end{enumerate}
+
+\subsection{Singular value decomposition}
+\underline{Question}: Given Euclidean vector spaces $V,W$ over $\mathbb R$ with inner products $\langle \cdot ,\cdot \rangle_V,\ \langle \cdot,\cdot \rangle_W$ (or ``$\cdot$'' if there is no risk of confusion) and linear map $T:V\rightarrow W$, is there a nice form of matrix for chosen orthonormal basis in $V$ and $W$ (independently) like the following?
+\[
+\begin{pmatrix}
+\gamma_1 & & 0 \\
+ & \ddots & &  0\\
+0 & & \gamma_n \\
+ & 0 & & 0
+\end{pmatrix}
+\]
+where $n=\rank T$. Answer is yes and let's formulate that.
+\begin{thm}
+Given the above situation, $\exists$ orthonormal bases $e_1,\ldots,e_{\dim V}$ of $V$ and $f_1,\ldots,f_{\dim W}$ of $W$ such that
+\[
+T(e_1)=\gamma_1 f_1 \quad \cdots \quad T(e_n) = \gamma _n f_n
+\]
+and the remaining
+\[
+T(e_{n+1})=0 \quad \cdots \quad T({e_{\dim V}}) =0
+\]
+where $n=\rank T=\dim \text{Im } T$ and $\gamma_1,\ldots,\gamma_n >0$ are real and uniquely determined by $T$: the positive square roots of the nonzero eigenvalues of $T^\ast T$, where $T^\ast$, still called adjoint of $T$, is the unique linear map $W\rightarrow V$ such that $\forall v\in V,w\in W$, $\langle Tv,w\rangle _W = \langle v,T^\ast w\rangle_V$. This justifies their name, the \textit{singular values} of $T$.
+\end{thm}
+\begin{coro}[Restatement in matrix language]
+Given an $M\times N$ matrix $A$, $\exists$ orthogonal matrices $P,Q$ such that
+\[
+P^T AQ= \begin{pmatrix}
+D & 0 \\ 0 & 0
+\end{pmatrix},\quad \text{i.e.}\quad A=P\begin{pmatrix}
+D & 0 \\ 0 & 0
+\end{pmatrix} Q^T.
+\]
+where $D=\begin{pmatrix}
+\gamma_1 & \\ & \gamma _2 \\ & & \ddots \\ &&& \gamma_n
+\end{pmatrix}$ is a diagonal $n\times n$ matrix where $n=\rank A$ and $\gamma_1 \geq \cdots \geq \gamma_n >0$ are positive square roots of nonzero eigenvalues of $A^T A$. They are unique, meaning if we have another such decomposition
+\[
+\left(P'\right)^T AQ'= \begin{pmatrix}
+D' & 0 \\ 0 & 0
+\end{pmatrix}
+\]
+then the diagonal matrices of $D'$ are again the $\gamma_i$'s.
+\end{coro}
+
+\begin{proof}[Proof of Theorem 4.6.1]
+We can define a new symmetric bilinear form on $V$:
+\[
+v_1 \ast v_2 := \langle T(v_1) , T(v_2)\rangle_W.
+\]
+It may be no longer positive definite due to potential kernel, but it's at least positive semi-definite, i.e. $\forall v \in V,\ v \ast v \geq 0.$ By Theorem 4.2.1 we can make the matrix of this bilinear form diagonal by picking a suitable orthonormal basis of $V$ $(e_1,\ldots,e_{\dim V})$. But
+\[
+v_1 \ast v_2 = \langle Tv_1, Tv_2 \rangle_W = \langle v_1, T^\ast T v_2 \rangle_V.
+\]
+So the diagonal entries of the matrix $B$ we have are just eigenvalues
+\[
+\alpha_1 \geq \cdots \geq \alpha_n > \alpha_{n+1}=0=\alpha_{n+2} = \cdots = \alpha_{\dim V}
+\]
+(since positive semi-definite) of $T^\ast T$. 
+
+We still need to prove $n=\rank T$. Observe that $T^\ast T(e_1) = \alpha_1 e_1, \ldots, T^\ast T(e_n) = \alpha_n e_n.$ We claim that $\Ker T= \Ker T^\ast T$, which follows from the observation:
+\[
+\langle Tv, Tv \rangle_W=\langle v,T^\ast Tv \rangle_V,
+\]
+so $\Ker T \subset \Ker T^\ast T$ is clear. If we pick $v$ in $\Ker T^\ast T$, then right hand side of above is zero, but inner product on $W$ is positive definite so left hand side being zero means $Tv=0$. Now we know 2 things: 
+\[
+T(e_{n+1}) = \cdots = T(e_{\dim V}) =0
+\]
+since $T^\ast T$ kills the same vectors, and if we put $f_1':= T(e_1), \ldots, f_n':=T(e_n)$, then
+\[
+\langle f_i' , f_j' \rangle_W = e_i \ast e_j = \alpha_i \delta_{ij}
+\]
+where $\delta$ is Kronecker and $\alpha_i$'s are positive. So $f_i'$'s are an orthogonal set of vectors of nonzero in $W$. Then if we normalise them to $f_i:=\frac{1}{\sqrt{\alpha_i}} f_i'$ we have an orthonormal set. In particular they are linearly independent, so $\rank T=n$. We can then extend it to an orthonormal basis of $W$ using Gram–Schmidt.
+
+The only thing we haven't shown is uniqueness, but this can be done quickly. If we have a described decomposition, then $A^T A= QD^T P^T PDQ^T=QD^T D Q^{-1}$, so $D^TD=D^2$ is similar to $A^TA$, meaning they have the same eigenvalues.
+\end{proof}
+
+\subsection{The complex story}
+Omitted, non-examinable, but recommended.
+
+\section{Structure theory of finitely generated abelian groups, Smith normal form}
+\subsection{Definitions}
+\begin{defn}
+An \textit{abelian group} $G$ is a set $G$ with a map $+:G\times G\rightarrow G$ such that
+\begin{enumerate}
+    \item $\forall g_1,g_2,g_3 \in G,\ (g_1+g_2)+g_3 = g_1+(g_2+g_3).$ \qquad associativity
+    \item $\forall g_1,g_2\in G,\ g_1+g_2=g_2+g_1$ \qquad commutativity
+    \item $\exists 0_G:0_G+g=g \ \forall g\in G$\qquad existence of neutral element
+    \begin{itemize}
+        \item[$\Rightarrow$] $0_G$ is unique
+    \end{itemize}
+    \item $\forall g\in G,\ \exists (-g):g+(-g)=0_G$\qquad existence of inverses
+    \begin{itemize}
+        \item[$\Rightarrow$] $(-g)$ is uniquely determined
+    \end{itemize}
+\end{enumerate}
+\end{defn}
+\begin{example}
+\begin{itemize}
+    \item $(\mathbb Z,+)$ where $+$ is the usual addition
+    \item $(\mathbb Z/n,+)$ where $\mathbb Z/n = \{0,1,\ldots,n-1\}$
+    \item $(\mathbb Q,+)$
+    \item More generally take $K$-vector space $V$ and $+$ the vector addition defined, then $(V,+)$ is an abelian group
+    \item Given field $K$ then $K\backslash \{0_K\}$ with multiplication defined is an abelian group
+\end{itemize}
+\end{example}
+
+\begin{defn}
+For $n\in \mathbb Z,\ n>0$ and abelian group $G,\ g\in G$, define
+\[
+n\cdot g = ng := \underbrace{g+g+\cdots+g}_{n\text{ times}} .
+\]
+If $n<0$,
+\[
+ng := \underbrace{-g+(-g)+\cdots+(-g)}_{-n\text{ times}} ,
+\]
+and if $n=0$, $0\cdot g = 0_G.$
+\end{defn}
+This defines a map $\mathbb Z \times G \rightarrow G.$
+\begin{defn}
+An abelian group $G$ is \textit{cyclic} if $\exists x\in G:G=\{nx | n\in \mathbb Z\} .$
+\end{defn}
+\begin{defn}
+A \textit{homomorphism} between abelian groups $G_1,G_2$ is a map
+\[
+f:G_1\rightarrow G_2:f(g\underbrace{+}_{G_1}h)=f(g)\underbrace{+}_{G_2}f(h) \qquad \forall g,h\in G_1 .
+\]
+\begin{itemize}
+    \item[$\Rightarrow$] $f\left(0_{G_1}\right)=0_{G_2}$ and $f(-g) = -f(g).$
+\end{itemize}
+\end{defn}
+\begin{defn}
+An \textit{isomorphism} of abelian groups $G_1,G_2$ is a homomorphism $f:G_1\rightarrow G_2$ with a two-sided inverse $g:G_2\rightarrow G_1$ which is again a homomorphism such that $g\circ f = \id_{G_1},\ f\circ g = \id_{G_2}$.
+\end{defn}
+We can check that this is equivalent to a bijective homomorphism.
+\begin{prop}
+Any cyclic group $G$ is isomorphic to $\mathbb Z$ or $\mathbb Z/n$ for some $n>0.$
+\end{prop}
+\begin{proof}
+We know $\exists x\in G : G=\{n x|x\in \mathbb Z\}$. Define homomorphism
+\[
+\begin{aligned}
+\phi:\mathbb Z &\rightarrow G \\
+n &\mapsto nx
+\end{aligned}
+\]
+then there are 2 cases:
+\begin{enumerate}
+    \item $nx$ are all distinct, then $\phi$ is bijective hence isomorphism
+    \item For $n_1\neq n_2,\ n_1 x=n_2 x$, i.e. $(n_1-n_2)x=0$. We pick the smallest $n\in \mathbb Z:n x=0.$ Then $G$ is isomorphic to $\mathbb Z/n$. Indeed
+    \[
+    0,x,2x,\ldots,(n-1)x
+    \]
+    are distinct by construction, and they give all elements in $G$ which can be written as $Nx=(\alpha n+r)x=rx$ where $r\in \{0,\ldots,1\}.$ So
+    \[
+    \overline{\phi}:\mathbb Z/n \rightarrow G
+    \]
+    is an isomorphism.
+\end{enumerate}
+\end{proof}
+\begin{defn}
+$G$ abelian. The \textit{order} of $g\in G$ is the smallest positive $n\in \mathbb Z : ng = 0_G$ or $\infty$ if no such $n$ exists.
+\end{defn}
+\begin{defn}
+If $X\subset G$ is a subset, we say $X$ \textit{generates} $G$ if every $g\in G$ can be written as $\sum_{i=1}^r \alpha _i x_i$ where $\alpha_i\in \mathbb Z,\ x_i\in X$ and $r\in \mathbb N.$
+
+If $|X|<\infty$ we call $G$ \textit{finitely generated}.
+\end{defn}
+\begin{defn}
+$G_1,\ldots,G_N$ abelian. The \textit{direct sum} (or \textit{direct product}) of the $G_i$'s is defined by
+\[
+G_1 \times \cdots \times G_N
+\]
+where $\times$ is Cartesian product.
+\end{defn}
+
+From now on all groups are abelian.
+\subsection{Subgroups, cosets, quotient groups}
+\begin{defn}
+$G$ group, $H\subseteq G$. $H$ is called a \textit{subgroup} if it's a group with the same group operation.
+\end{defn}
+\begin{prop}[Criteria for subgroup]
+$G$ group, $H\subseteq G$. Then $H$ is a subgroup if and only if
+\begin{enumerate}
+    \item $H$ is nonempty
+    \item $\forall h_1,h_2 \in H,\ h_1+h_2\in H$
+    \item $\forall h\in H,\ -h\in H$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+See notes.
+\end{proof}
+\begin{prop}[Another one]
+$G$ group, $H\subseteq G$. Then $H$ is a subgroup if and only if
+\begin{enumerate}
+    \item $H$ is nonempty
+    \item $\forall h_1,h_2\in H,\ h_1-h_2 \in H$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+Immediately from previous proposition.
+\end{proof}
+\begin{prop}
+If $H$ is a subgroup of $G$, then $0_H=0_G$.
+\end{prop}
+\begin{proof}
+We know $0_H+0_H=0_H$ and $0_H+0_G=0_H$. By cancellation we have desired.
+\end{proof}
+
+\begin{example}
+\begin{itemize}
+    \item For any group $G$ we have 2 trivial groups $\{0_G\}$ and $G$.
+    \item We can also take $g\in G$ and look at the cyclic group it generates: $\{ng : n\in \mathbb Z \} \subseteq G.$
+    \item Even integers, denoted $2\mathbb Z\subseteq \mathbb Z$. More generally $n\mathbb Z$ is a subgroup.
+\end{itemize}
+\end{example}
+
+\begin{defn}
+$G$ group, $H$ subgroup, $g\in G$. We define the \textit{coset} of $g$ by
+\[
+H+g := \{ h+g : h\in H\} .
+\]
+\end{defn}
+\begin{example}
+Let $G=\mathbb Z,\ H=5\mathbb Z$. Then $H+1=\{5n+1 :n\in \mathbb Z\}=\{-4,1,6,\ldots\}$. Note this is also $H+(-4),H+6,$ etc. We then see there are 5 cosets in total, $H,H+1,H+2,H+3,H+4.$
+\end{example}
+\begin{example}
+Let $G=\mathbb R^2,\ H=\spanset \{(1,2)\}$. Then coset of $(0,1)$ is $\{(x,2x+1):x\in \mathbb R\}$. This has a nice visualisation: the subgroup is a line through origin and the coset is shifted.
+\end{example}
+\begin{prop}
+$G$ group, $H$ subgroup, $g,k\in G$. Then the following are equivalent:
+\begin{enumerate}
+    \item $k\in H+g$
+    \item $H+k=H+g$
+    \item $g-k \in H$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{itemize}
+    \item 2 implies 1: $k=0+k\in H+k=H+g$.
+    \item 1 implies 2: $k=h+g$ for some $h\in H$, so for an arbitrary $h'\in H$,
+    \[
+    h'+k=h'+(h+g)=(h'+h)+g \in H+g
+    \]
+    i.e. $H+k \subseteq H+g$. By symmetry of $k$ and $g$ we conclude $H+k=H+g.$
+    \item 1 implies 3: $k=h+g$ for some $h\in H$, then $g-k=-h\in H$.
+    \item 3 implies 1: $g-k=h$ for some $h\in H$, then $k=-h+g\in H+g$.
+\end{itemize}
+\end{proof}
+
+\begin{coro}
+Given $g_1,g_2$, either $H+g_1=H+g_2$ or $H+g_1\cap H+g_2=\varnothing$.
+\end{coro}
+\begin{proof}
+Suppose not disjoint, i.e. $k\in H+g_1\cap H+g_2$. By equivalence of 1 and 2, $H+g_1=H+k=H+g_2$.
+\end{proof}
+\begin{coro}
+Cosets of $H$ partition $G$.
+\end{coro}
+\begin{prop}
+All cosets have the same cardinality $|H|.$
+\end{prop}
+\begin{proof}
+Consider a map $H\rightarrow H+g,\ h\mapsto h+g$. Clearly it's surjective. Now suppose $h_1,h_2\in H$ such that $h_1+g=h_2+g$. By cancellation $h_1=h_2$, so it's injective and therefore bijective.
+\end{proof}
+\begin{coro}[Lagrange theorem]
+If $G$ is finite, $|G|=|H|(\text{number of cosets of }H)$
+\end{coro}
+Number of cosets of is then called index of $H.$
+\begin{prop}
+$|g|$ divides $|G|$.
+\end{prop}
+\begin{proof}
+Consider the cyclic subgroup $H$ generated by $G$ and by previous corollary we have desired.
+\end{proof}
+\begin{prop}
+If $|G|=p$ where $p$ is prime, then $G$ is cyclic.
+\end{prop}
+\begin{notation}
+$G/H=\{\text{cosets of }H\}$.
+\end{notation}
+\begin{defn}
+$G$ group, $A,B \subseteq G$. We define $A+B:=\{a+b,a\in A,b\in B\}$.
+\begin{itemize}
+    \item[$\Rightarrow$] $A+B \subseteq G$
+\end{itemize}
+\end{defn}
+\begin{lemma}
+$H$ subgroup, then $(H+g)+(H+k)=H+(g+k).$
+\end{lemma}
+\begin{proof}
+$h_1+g+h_2+k = (h_1+h_2)+(g+k)$.
+\end{proof}
+
+\begin{thm}[Quotient group]
+$G/H$ together with addition defined above is an abelian group.
+\end{thm}
+\begin{proof}
+Closure by previous lemma, associativity and commutativity by those of $G$, $0_{G/H}=H$ and inverse of $H+g$ is $H+(-g).$
+\end{proof}
+\subsection{First isomorphism theorem}
+\begin{defn}
+Given homomorphism $\phi:G\rightarrow H$, \textit{kernel} is defined by $\Ker \phi = \{g\in G:\phi(g)=0_H\}$.
+\end{defn}
+\begin{prop}
+$\phi$ is injective if and only if $\Ker \phi = \{0_G\}$.
+\end{prop}
+\begin{proof}
+If injective then $\phi (0_G)=0_H$.
+
+Conversely suppose $\Ker \phi = \{0_G\}$. Then $\phi (g_1)-\phi (g_2) = \phi(g_1-g_2) = 0_H$, so $g_1-g_2=0_G$, so injective.
+\end{proof}
+\begin{thm}
+Given $\phi:G\rightarrow H$, $\Ker \phi$ is a subgroup of $G$ and $\text{Im } \phi$ is a subgroup of $H.$
+\end{thm}
+\begin{thm}
+Define $\phi : G\rightarrow G/H,\ g\mapsto H+g$. This is a surjective homomorphism with $\Ker \phi=H.$
+\end{thm}
+\begin{prop}
+$\phi:G\rightarrow H$ a homomorphism with kernel $K$, $A\subseteq G$ a subgroup. Then the following are equivalent:
+\begin{enumerate}
+    \item $A\subseteq K$
+    \item $\exists \overline{\phi}:G/A \rightarrow H,\ \overline{\phi} (A+g) = \phi (g).$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{itemize}
+    \item 1 implies 2: suppose $A+g_1=A+g_2$. By previous proposition $g_1-g_2 \in A \subseteq K$. So $\phi (g_1-g_2) = 0_H \Rightarrow \phi (g_1)=\phi(g_2).$ So the $\overline{\phi}$ in 2 is well-defined, i.e. it's consistent. To show homomorphism, note that
+    \[
+    \begin{aligned}
+    \overline{\phi} ((A+g)+(A+h)) &= \overline{\phi} (A+g+h) = \phi (g+h) = \phi(g) + \phi(h) \\ &= \overline{\phi} (A+g)+\overline{\phi} (A+h)
+    \end{aligned}
+    \]
+    \item not 1 implies not 2: suppose $\exists a \in A:\phi(a)\neq 0.$ We can write
+    \[
+    \overline{\phi} (A+a) = \overline{\phi} (A) = \phi(a) \neq 0_H
+    \]
+    but $A$ is identity of $G/A$, so $\overline{\phi}$ is ill-defined.
+\end{itemize}
+\end{proof}
+\begin{example}
+Let $\phi: \mathbb Z \rightarrow \mathbb Z/3$ be $n\mapsto n\mod 3$. So $K=3\mathbb Z$, and let $A=6\mathbb Z \subseteq K.$ So $A+1=\{\ldots,-5,1,7,13,\ldots\}$, then $\phi(a) = 1 \ \forall a\in A+1.$ But if we take $A'=5\mathbb Z \not\subseteq K$, $A'+1=\{\ldots,-4,1,6,11,\ldots\}$ then $\phi(a')=0,1,2 \ \forall a'\in A'+1$, conflicting answers which means making sense of $\overline{\phi}$ is impossible.
+\end{example}
+\begin{thm}[First isomorphism theorem]
+$\phi : G\rightarrow H$ with kernel $K.$ Then $\overline{\phi}: G/K \rightarrow H$ gives an isomorphism of $G/K \cong \text{Im }\phi.$
+\end{thm}
+\begin{proof}
+Existence of the homomorphism stated is a immediate corollary of the previous proposition. It follows that $\text{Im }\overline{\phi}=\text{Im }\phi$, so $\overline{\phi}: G/K \rightarrow \text{Im }\phi$ is surjective. Now suppose $(K+g)\in \Ker \overline{\phi}$. So $\overline{\phi}(K+g)=\phi(g)=0_H$, i.e. $g\in K$. This implies $K+g=K$ by Proposition 5.2.9, which is identity of $G/K$. So $\Ker \overline{\phi}=\{0_{G/K}\}$, therefore $\overline{\phi}$ is injective, hence bijective.
+\end{proof}
+
+\subsection{Finitely generated free abelian groups}
+\begin{defn}
+We call an abelian group \textit{free} of rank $n$ if it is isomorphic to $\mathbb Z^n$ (with componentwise addition). ($n\in \mathbb N_{>0}$)
+\end{defn}
+\begin{defn}
+Let $G$ be an abelian group. We call elements $g_1,\ldots,g_n \in G$
+\begin{itemize}
+\item \textit{(integrally) linearly independent} if whenever there is a relation
+\[
+\alpha_1 g_1 + \alpha_2 g_2 + \cdot + \alpha_n g_n = 0_G
+\]
+where $\alpha_i \in \mathbb Z$, we must have $\alpha_1=\cdots=\alpha_n=0$;
+\item \textit{(integrally) span/generate} $G$ if every element in $G$ can be written as a $\mathbb Z$-linear combination of $g_i$'s.
+\item \textit{an (integral) basis} if they have both above properties.
+\end{itemize}
+\end{defn}
+
+\begin{example}
+Let $G=\mathbb Z^n$ and $g_1,\ldots,g_r \in G,\ r\in \mathbb N_{>0}$ where $g_i = \begin{pmatrix}
+    a_1 \\ \vdots \\ a_n
+\end{pmatrix}$ with $a_i \in \mathbb Z$. We can view these as elements of $\mathbb Q^n$, which is a vector space, since $\mathbb Z^n \subset \mathbb Q^n$. We claim $g_1,\ldots,g_r$ are integrally linearly independent if and only if they are linearly independent considered as vectors in $\mathbb Q^n$.
+\begin{proof}
+\begin{itemize}
+    \item[$\Leftarrow:$] If we write
+    \[
+    \alpha_1 g_1 + \cdots + \alpha_r g_r = 0 \quad \in \quad \mathbb Z^n
+    \]
+    and when $g_1,\ldots,g_r$ are $\mathbb Q$-linearly independent, we get $\alpha_1=\cdots=\alpha_r=0$ by definition since $\mathbb Q$ and $\mathbb Z$ share the same zero.
+    \item[$\Rightarrow:$] We prove this by proving if $g_1,\ldots,g_r$ are linearly dependent in $\mathbb Q^n$ then they are integrally linearly dependent too. If we write
+    \[
+    \frac{p_1}{q_1} g_1 + \frac{p_2}{q_2} g_2 + \cdots + \frac{p_r}{q_r} g_r = 0,
+    \]
+    a nontrivial linear dependency relation in $\mathbb Q^n$ where $p_i \in \mathbb Z,\ q_i \in \mathbb N_{>0}$. Multiply by all the $q_i$'s we get a nontrivial linear dependency relation with integral coefficients.
+\end{itemize}
+\end{proof}
+We further claim that if $g_1,\ldots,g_r$ span $\mathbb Z^n$ integrally then $g_1,\ldots,g_r$ span $\mathbb Q^n$ as a vector space.
+\begin{proof}
+Let $v=\begin{pmatrix}
+    \frac{a_1}{b_1} \\ \vdots \\ \frac{a_n}{b_n}
+\end{pmatrix} \in \mathbb Q^n$ where $a_i \in \mathbb Z$ and $b_i \in \mathbb N_{>0}$. Then $\prod b_i v \in \mathbb Z^n$ is a linear combination of $g_1,\ldots,g_r$. So if we divide by $\prod b_i$ again we have $v$ being a $\mathbb Q$-linear combination of $g_1,\ldots,g_r$.
+\end{proof}
+Converse is not true. Counterexample: $\begin{pmatrix}2 \\ 0\end{pmatrix},\begin{pmatrix}0 \\ 4\end{pmatrix}$ span $\mathbb Q^2$ but does not span $\mathbb Z^2$ since you only get even tuples.
+\end{example}
+\begin{remark}
+Suppose $g_1,\ldots,g_r$ is an integral basis of $G \simeq \mathbb Z^n$, then $r=n$. i.e. all integral basis have $n$ elements. Indeed, by preceding claims, $g_1,\ldots,g_r$ is a basis for $\mathbb Q^n$, so $r=n$.
+\end{remark}
+\begin{thm}
+Suppose $x_1,\ldots,x_n$ are an integral basis of $G=\mathbb Z^n$ and $y_1,\ldots,y_n \in G$. We can form an $n\times n$ matrix $P$ whose columns contain the basis expansion of $y_1,\ldots,y_n$ with respect to the basis $x_1,\ldots,x_n$. Then the following are equivalent:
+\begin{enumerate}
+    \item $y_1,\ldots,y_n$ are also an integral basis
+    \item $P$ is invertible with $P^{-1} \in \mathbb Z^{n\times n}$
+    \item $\det P = \pm 1$
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{itemize}
+    \item $1\Rightarrow 2$: Let $X=(x_1,\ldots,x_n),Y=(y_1,\ldots,y_n)$. Then $P$ is just change of basis matrix $\mathcal M(\text{id})_Y^X$, so $\mathcal M(\text{id})_X^Y\cdot \mathcal M(\text{id})_Y^X=I_n$. Since $Y$ is an integral basis, $\mathcal M(\text{id})_X^Y=P^{-1}\in \mathbb Z^{n\times n}$.
+    \item $2\Rightarrow 3$: $PP^{-1}=I_n$, so $\det P \det P^{-1}=1$. But both determinants are integers, so we have 3.
+    \item $3\Rightarrow 2$: Since $P^{-1} = \frac{1}{\det P} \adj P$ where $\adj P$ is polynomial in entries of $P$ and $\det P=\pm 1$, so entries of $P^{-1}$ are integers.
+    \item $2\Rightarrow 1$: We can express $x_j$'s as integral linear combination of $y_i$'s, i.e. $Y$ spans $\mathbb Z^n$ integrally. Also $Y$ is $\mathbb Q$-linearly independent so it's integrally linearly independent.
+\end{itemize}
+\end{proof}
+\subsection{(Unimodular) Smith normal form for integer matrices, structure of finitely generated abelian groups}
+\subsubsection{Motivation and preparation}
+\[
+\xymatrix{
+K=\Ker p \ar[r] & \mathbb Z^m\ar[r]^{p\text{ surjective} } & G \\
+{\text{abelian subgroup of }\mathbb Z^n} & {\begin{psmallmatrix}
+     a_1 \\ \vdots \\ a_m
+ \end{psmallmatrix}}\ar@{|-{>}}[r]& a_1 g_1 +\cdots+a_m g_m
+}
+\]
+where $G$ is a finitely generated abelian group with $g_1,\ldots,g_m$ generators, $\Ker p$ will be proved to be finitely generated. But then we can expand this by iterating:
+\[
+\xymatrix{
+{\begin{psmallmatrix}
+     b_1 \\ \vdots \\ b_n
+ \end{psmallmatrix}} \ar@{|-{>}}[dr] & \mathbb Z^n \ar[dr] \ar[rr]^{ M \in \mathbb Z^{m\times n}} & & \mathbb Z^m \ar@{-{>>}}[r]^p & G \simeq \mathbb Z^m / K \\
+& {\sum_{i=1}^n b_i h_i} & K \ar[ur]
+}
+\]
+where $K$ is finitely generated by $h_1,\ldots,h_n$ and is $\text{Im}(M) \subseteq \mathbb Z^m$.
+
+This gives us a free presentation of $G$, 
+\[
+\xymatrix{
+\mathbb Z^n \ar[r]^{M} & \mathbb Z^m\ar@{-{>>}}[r] & {\mathbb Z^m / \text{Im}( M)} \simeq G
+}
+\]
+
+which says $G$ is generated by $g_1,\ldots,g_m$ and modulo relations given by columns of $M$.
+\begin{example}
+\[
+\xymatrix{
+\mathbb Z^2 \ar[r]^{\begin{psmallmatrix}
+    2 & -1 \\ 3 & 2 \\ 1 & 4
+\end{psmallmatrix}} & \mathbb Z^3 \ar@{-{>>}}[r] & \mathbb Z^m/\text{Im}( M) \simeq G
+}
+\]
+which says $G$ is generated by 3 elements $g_1,g_2,g_3$ subject to relations
+\[
+\begin{aligned}
+2g_1+3g_2+g_3 &= 0 \\
+-g_1+2g_2+4g_3 &= 0
+\end{aligned}
+\]
+in $G$.
+\end{example}
+Then suppose we want to understand the isomorphism type of $G$, what we do is to bring $ M$ to a particularly ``easy'' normal form using integrally invertible row and column operations.
+
+Over $\mathbb Q$ we can transform $ M$ into Smith normal form
+\[
+\begin{pmatrix}
+1 & & & 0\\
+& 1 \\
+& & \ddots & & & 0 \\
+0 & & & 1 \\ \\
+& & 0
+\end{pmatrix}
+\]
+where there are $r=\rank M$ of 1's. But something like dividing by 2 is not considered as invertible over $\mathbb Z$. We regulate the following to be allowed:
+\begin{itemize}
+    \item Add an integer multiple of some row/column to another
+    \item Interchange two rows/columns
+    \item Multiply a row/column by an $-1$
+\end{itemize}
+These are sometimes called unimodular row and column operations. These correspond to multiplication of $M$ on the left/right by matrices in $GL_m (\mathbb Z)/GL_n (\mathbb Z)$, $m\times m$/$n\times n$ matrices with integer entries and inverse also with integer.
+\begin{example}
+$A=\begin{pmatrix}
+3 & 4 \\ 2 & 3
+\end{pmatrix}\in GL_2 (\mathbb Z)$ since $\det A=1$, but $B=\begin{pmatrix}
+    2 & 3 \\ 4 & 1
+\end{pmatrix}\notin GL_2 (\mathbb Z)$ since $\det B=-10$.
+\end{example}
+\subsubsection{Smith normal form}
+\begin{thm}[Unimodular Smith normal form]
+Given $M\in \mathbb Z^{m\times n}$, we can reduce $M$ to the form by unimodular row and column operations:
+\[
+\begin{pmatrix}[cccc|cc]
+d_1 & & & 0 & \\
+& d_2 &&& \\
+& & \ddots & & & 0 \\
+0 & & & d_r \\ \hline &&&&&\\
+& & 0 & & &
+\end{pmatrix}
+\]
+where $d_1,\ldots,d_r\in \mathbb Z_{>0}$, $d_i | d_{i+1} \ \forall i=1,\ldots,r-1$ and $r=\rank M$. Furthermore the form is unique.
+\end{thm}
+This allows us to determine the isomorphism type of a general finitely generated abelian group. Consider again the presentation and suppose $M'$ is the unimodular Smith norm form of $M$. Then we have
+\[
+\xymatrix{
+\mathbb Z^n \ar[r]^{M} \ar[d]_{B\in GL_n(\mathbb Z)}^{\rotatebox{90}{$\sim$}} & \mathbb Z^m\ar@{-{>>}}[r] \ar[d]^{A\in GL_m(\mathbb Z)}_{\rotatebox{-90}{$\sim$}} & {\mathbb Z^m / \text{Im}( M)} \simeq G \\
+\mathbb Z^n\ar[r]_{M'} & \mathbb Z^m \ar@{-{>>}}[r] & \mathbb Z^m/\text{Im}(M') \ar[u]^{\rotatebox{-90}{$\sim$}}_{\text{isomorphism induced by }A}
+}
+\]
+where $M'=AMB^{-1}$. So now we just need to understand $\mathbb Z^m/\text{Im}(M')$ which is isomorphic to $G$. We write the generators $g_1,\ldots,g_m$ modulo the only relations
+\[
+\begin{aligned}
+    d_1 g_1&=0 \\
+    d_2 g_2&=0 \\
+    &\vdots \\
+    d_r g_r&=0,
+\end{aligned}
+\]
+no other relations. So we can see $\mathbb Z^m / \text{Im}(M')$ as direct sum of cyclic groups $\mathbb Z/d_i \mathbb Z$'s with $\mathbb Z^{n-r}$, a free group generated by remaining $g_{r+1},\ldots,g_m$ where $d_i$ is just order of the cyclic group.
+\begin{proof}[Proof of Theorem 5.5.3]
+Consider the set $S$ of all integer $m\times n$ matrices that we can attain from $M$ by unimodular row/column operations and $M$ is assumed to be nonzero. In this set, pick $\widetilde{M}$ with the property that one of its entries has minimum absolute value among all entries of all matrices in $S$ and is nonzero.
+\[
+\widetilde{M}=\begin{pmatrix}[cc|c|cc]
+&&y&& \\&&&& \\ \hline
+y & & x & & \\ \hline
+ &&&& \\ &&&&
+\end{pmatrix}
+\]
+We claim that other entries in the same row and column are all divisible by $x$. Indeed, if $y=qx+r$ and $0<|r|<|x|$, then we can just add $-q$ times the row/column of $x$ to the row/column of $y$ and get a contradiction, so $r=0$. Therefore we can make all of them zero and have
+\[
+\widetilde{\widetilde{M}} = \begin{pmatrix}[cc|c|cc]
+&&0&& \\&&\vdots&& \\ \hline
+0 & \cdots & x &\cdots & 0 \\ \hline
+ &&\vdots&& \\ &&0&&
+\end{pmatrix}
+\]
+and then by reordering we put $x$ in $1,1$ spot:
+\[
+\begin{pmatrix}[c|ccc]
+x & 0 & \cdots & 0 \\ \hline
+0 \\
+\vdots & & M\in \mathbb Z^{m-1\times n-1} \\
+0
+\end{pmatrix}
+\]
+and we proceed by induction on $m+n$ to reach the normal form with $d_1,\ldots,d_r>0$. Now suppose $d_1$ would not divide $d_2$, but again by division with remainder and row/column operations we can come up with an entry with smaller absolute value than $d_1=x$, a contradiction. By induction $d_i$ divides $d_{i+1}$.
+\end{proof}
+How to actually compute this form?
+
+Observe that given $M \in \mathbb Z^{m\times n}$, $d_1$ in the Smith normal form is just the gcd of all the entries. To see this we want to show that this gcd is invariant under unimodular row/column operations (then if it's gcd of all $d_i$'s then it's gcd of original entries). Indeed, if we add an integer multiple of one row/column to another and get $\widetilde{M}$ from $M$, then an integer divides all entries of $M$ if and only if it divides all entries of $\widetilde{M}$. So here's the algorithm.
+\begin{enumerate}
+\item Compute gcd of $M\in \mathbb Z^{m\times n}$. If the gcd is actually $\pm$one of entries, we can just make other entries sharing the row and column 0 and move it to 1,1.
+\begin{example}
+\[
+\begin{pmatrix}
+    8 & 6 \\ 4 & -2
+\end{pmatrix} \leadsto \begin{pmatrix}
+    4 & -2 \\ 8 & 6
+\end{pmatrix}\leadsto \begin{pmatrix}
+    4 & 2 \\ 8 & -6
+\end{pmatrix} \leadsto \begin{pmatrix}
+    2 & 4 \\ -6 & 8
+\end{pmatrix} \leadsto \begin{pmatrix}
+    2 & 0 \\ -6 & 20
+\end{pmatrix} \leadsto \begin{pmatrix}
+    2 & 0 \\ 0 & 20
+\end{pmatrix}
+\]
+\end{example}
+\item If none of the entries are equal to gcd, we try to reduce the size of absolute value minimum entry (using division with remainder and row/column operations) until gcd appears.
+\[
+\begin{pmatrix}[cc|c|cc]
+&&y&& \\&&&& \\ \hline
+y & & x & & \\ \hline
+ &&&& \\ &&&&
+\end{pmatrix}
+\]
+2 cases: either $x$ divides all the $y$ sharing the row and column, or not. If one of $y$ is not divisible by $x$, then just do row/column operations and go back to step 1.
+\begin{example}
+\[
+\begin{pmatrix}
+    7 & 13 & 4\\ 6 & 2 & 5 \\ 10 & 20 & 102
+\end{pmatrix}
+\]
+\end{example}
+If all of them are divisible, then make all $y$ zero. There will be another nonzero entry $z$ outside the cross band that is not divisible by $x$ by assumption that $x$ is not gcd. This gives us a submatrix
+\[
+\begin{pmatrix}
+    z & 0 \\ 0 & x
+\end{pmatrix}
+\]
+and since $z=qx+r$ where $0<|r|<|x|$, we can replace $z$ by $r$ by row/column operations (add row of $x$ to row of $z$ and add $-q$ times column of $x$ to column of $z$). We do this until gcd appears and go back to step 1.
+\end{enumerate}
+
+\begin{example}
+\[
+\begin{pmatrix}
+-18 & -18 & -18 & 90 \\
+54 & 12 & 45 & 48 \\
+9 & -6 & 6 & 63 \\
+18 & 6 & 15 & 12
+\end{pmatrix}
+\]
+gcd is 3. To make it appear we stare at the matrix and see that we can subtract column 3 from 1.
+\[
+\begin{pmatrix}
+0 & -18 & -18 & 90 \\
+9 & 12 & 45 & 48 \\
+3 & -6 & -6 & 63 \\
+3 & 6 & 15 & 12
+\end{pmatrix}
+\]
+and by row/column operations we arrive at
+\[
+\begin{pmatrix}[c|ccc]
+3 & 0 & 0 & 0 \\ \hline
+0 & -6 & 0 & 12\\
+0 & -12 & -9 & 51 \\
+0 & -18 & -18 & 90
+\end{pmatrix}
+\]
+and gcd of submatrix is again 3. So we make column 1 positive and add column 2 to 1 to get
+\[
+\begin{pmatrix}
+6 & 0 & 12 \\
+3 & -9 & 51 \\
+0 & -18 & 90
+\end{pmatrix}
+\]
+then we arrive at 
+\[
+\begin{pmatrix}[c|cc]
+3 & 0 & 0\\ \hline
+0 & 18 & -90 \\
+0 & -18 & 90
+\end{pmatrix}
+\]
+and proceed similarly we conclude at
+\[
+\begin{pmatrix}
+3 & 0 & 0 & 0\\
+0 & 3 & 0 & 0\\
+0 & 0 & 18 & 0 \\
+0 & 0 & 0 & 0
+\end{pmatrix} .
+\]
+\end{example}
+\subsubsection{Structure of finitely generated abelian groups}
+Recall with Smith normal forms, $\mathbb Z/\text{Im}(M')$ is just
+\[
+\mathbb Z/d_1 \mathbb Z \oplus \mathbb Z/d_2 \mathbb Z \oplus \cdots \oplus \mathbb Z/d_r \mathbb Z \oplus \mathbb Z^{n-r}
+\]
+and $\mathbb Z/1\mathbb Z$ is just the trivial group so can be omitted (unless it's the only member). ($K$, a subgroup of finitely generated group is also finitely generated is remained to be proved.) We can then write the main theorem of this section.
+\begin{thm}[Structure theorem for finitely generated abelian groups]
+Each finitely generated abelian group $G$ is isomorphic to a group of the form
+\[
+\mathbb Z/a_1 \mathbb Z \oplus \mathbb Z/a_2 \mathbb Z \oplus \cdots \oplus \mathbb Z/a_s \mathbb Z \oplus \mathbb Z^f
+\]
+where $a_i \in \mathbb Z,\ a_i \geq 2$ and $a_i|a_{i+1} \ \forall i$; and $f\in \mathbb N$; and $s,f,a_i$'s are uniquely determined by $G$.
+\end{thm}
+\begin{example}
+Consider a finitely generated abelian groups of order 36. Then immediately $f=0$ since otherwise it would be infinite. Also $a_1\cdots a_s=36$ where $a_i$'s are of properties described in theorem. Trivially we can have $a_1=36$. Also $a_1=2,\ a_2=18;\ a_1=3,\ a_2=12$ or $a_1=a_2=6$. These are different because, say, $\mathbb Z/2\mathbb Z \oplus \mathbb Z/18\mathbb Z$ has elements of order 18 while others don't.
+
+But if we have a group of order 16, then it could be $\mathbb Z/2\mathbb Z \oplus \mathbb Z/2\mathbb Z \oplus \mathbb Z/4\mathbb Z$ or $\mathbb Z/4\mathbb Z\oplus \mathbb Z/4\mathbb Z$. Then we can count number of elements of order 2 in each isomorphism and find that one has 7 while the other only has 3.
+\end{example}
+\begin{lemma}
+Given a product of abelian groups
+\[
+G=G_1 \times G_2 \times \cdots \times G_N
+\]
+and an element
+\[
+g=(g_1,g_2,\ldots,g_N)
+\]
+of finite order $o(g)$, then $o(g)=\lcm \{o(g_i)\}$.
+\end{lemma}
+\begin{proof}
+Let $l:=\lcm \{o(g_i)\}$. Then $g^l = \left(g_1^l,\ldots,g_N^f \right)=0_G$. So $o(g)|l$. Now suppose $g^r = \left(g_1^r,\ldots,g_N^r \right)=0_G$. Then $o(g_i)|r \ \forall i$, so $\lcm \{o(g_i)\} :=l |r$. Put $r=o(g)$ we complete the proof.
+\end{proof}
+\begin{remark}
+Many naturally occurring abelian groups are not finitely generated, e.g. $(\mathbb Q,+)$.
+\end{remark}
+Now we'll prove the unproved.
+\begin{prop}
+A subgroup $H$ of a finitely generated abelian group $G$ is finitely generated.
+\end{prop}
+\begin{proof}
+Suppose $G$ is minimally generated by nonzero elements $x_1,\ldots,x_n$. We prove the desired by induction on $n$. If $n=0$ then $G$ is trivial so it's trivial. Then we look at the subgroup $G'$ of $G$ generated by $x_1,\ldots,x_{n-1}$. We have 2 alternatives:
+\begin{enumerate}
+    \item $H\subseteq G'$, then we're okay by induction.
+    \item $H\not\subseteq G'$, then $\exists g'+tx_n \in H$ where $g'\in G',\ t\in \mathbb Z_{>0}$, i.e. there is an element in $H$ which is not generated by $x_1,\ldots,x_{n-1}$ and we do need $x_n$ to write it. We pick such element with minimal $t$. Consider $H\cap G'\subset G'$ which can be generated by $y_1,\ldots,y_n$ and denote $g'+tx_n:= y_{n+1}$. We claim $H$ is generated by $y_1,\ldots,y_n,y_{n+1}$. Consider a general $\widetilde{g}+sx_n \in H$ where $\widetilde{g} \in G',\ s\in \mathbb Z$. $s$ must be multiple of $t$ by minimality of latter and division with remainder:
+    \begin{example}
+        Suppose $G'=\langle x_1,x_2,x_3\rangle$ and $y_{n+1}=2x_1+3x_2+5x_3$. But if we have $4x_1+101x_2+7x_3$ then $2x_1+98x_2+2x_3 \in H$ but $2<5$, a contradiction;
+    \end{example}
+    so $\widetilde{g}+sx_n-Ny_{n+1} \in G' \cap H$.
+\end{enumerate}
+\end{proof}
+\begin{remark}
+\begin{enumerate}
+    \item Consider $R$-modules $M$ (which satisfy same axioms with $K$-vector space, except scalars are taken from $R$, a commutative ring) then abelian groups are just $Z$-modules. So why is the proof above nontrivial? Is a submodule of any finitely generated $R$-module finitely generated? No! Consider $R=K[x_1,x_2,\ldots]$, a polynomial ring over field $K$ in infinitely many variables, then a $R$-submodule generated by $x_1,x_2,\ldots$ is not finitely generated. We exploit the speciality, namely division with remainder, of $\mathbb Z$.
+    \item If we have 2 isomorphic finitely generated abelian groups $G_1 \simeq \mathbb Z/a_1\mathbb Z\oplus \mathbb Z/a_r\mathbb Z \oplus \mathbb Z^e$ and $G_2 \simeq \mathbb Z/b_1\mathbb Z\oplus \mathbb Z/b_s\mathbb Z \oplus \mathbb Z^f$ with $a_i,b_j\geq 2$ and $a_i|a_{i+1},\ b_j|b_{j+1} \ \forall i,j$. Then $e=f,\ r=s$ and $a_i=b_i$, i.e. unique determined by the group.
+    \begin{proof}[Sketch of proof]
+    \[
+    \xymatrix{
+    {\underset{\rotatebox{90}{$\subset$}}{G_1}} \ar[r]_{\simeq}^f & {\underset{\rotatebox{90}{$\subset$}}{G_2}} \\
+    T_1 & T_2
+    }
+    \]
+    where $T_1,T_2$ are ``torsion subgroups'', i.e. subgroups formed by all elements of finite order. In this case $T_1=\mathbb Z/a_1\mathbb Z\oplus \cdots \oplus \mathbb Z/a_r\mathbb Z$ and $T_2=\mathbb Z/b_1\mathbb Z\oplus \cdots \oplus\mathbb Z/b_s\mathbb Z$. Clearly $f$ restricts to an isomorphism $\xymatrix{
+    f:T_1 \ar[r]^\sim &T_2
+    }$ and also induces an isomorphism $\xymatrix{
+    \mathbb Z^e=G_1/T_1 \ar[r]^\sim &G_2/T_2=\mathbb Z^f
+    }$. Take an element of maximum order in $T_1$, say $x$, then under $f$ it's mapped to the element of maximum order in $T_2$, say $y$, i.e. we must have $a_r=b_s$. We then see that $f$ induces an isomorphism
+    \[
+    \xymatrix{
+    \mathbb Z/a_1 \mathbb Z \oplus \cdots \oplus \mathbb Z/a_{r-1} \mathbb Z \mathbb =T_1/\langle x\rangle \ar[r]^\sim &T_2/\langle y\rangle=\mathbb \mathbb Z/b_1 \mathbb Z \oplus \cdots \oplus \mathbb Z/b_{s-1}
+    },
+    \]
+    then we proceed by induction.
+    \end{proof}
+    \item There is also a similar ``unimodular'' Smith normal form where you replace $\mathbb Z$ with polynomials in one variables $K[x]$ (which also has division with remainder). What interesting $\mathbb C[x]$ modules are there where structure could be illuminated by the Smith normal form for polynomials?
+
+    Consider a finite dimensional $\mathbb C$-vector space $V$ with endomorphism $T$. We define $p(x)v$ where $v\in V$ and $p(x)\in \mathbb C[x]$ by
+    \[
+    \left(a_n T^n + a_{n-1} T^{n-1}+\cdots + a_1 T+a_0 \text{id} \right)(v).
+    \]
+    This $\leadsto$ the Jordan canonical form. Essentially. We proved the same theorem twice (assuming a sufficiently conceptual point of view) in 2 different ways.
+\end{enumerate}
+\end{remark}
+\end{document}
