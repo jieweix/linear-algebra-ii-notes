@@ -1,13 +1,17 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[british]{babel}
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{mathtools}
+\usepackage{luatex85}
 \usepackage[all]{xy}
 \usepackage{color}
 \usepackage{geometry}
+
+\geometry{a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm}
 
 \makeatletter
 \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
@@ -43,7 +47,7 @@
 
 \title{MA251 Linear algebra II :: Lecture notes}
 \author{Lecturer: Christian Boehning}
-\date{\today}
+\date{Last edited: \today}
 
 \begin{document}
 
@@ -561,7 +565,7 @@ and just apply this to $(x-\lambda)^i$ and $(x-\mu)^j$ for $\lambda,\mu$ eigenva
 
 If $A$ is a $2\times 2$ matrix with $c_{A}(x)=\mu_{A}(x)=(x-\lambda)^2$, then the Jordan canonical form of $A$ is $\begin{pmatrix}\lambda & 1\\0& \lambda\end{pmatrix}$ since the maximum degree of the block is 2, the same size with the whole matrix, which is therefore a Jordan block itself. But if $\mu_{A}(x)=x-\lambda$ then the Jordan canonical form is $\begin{pmatrix}\lambda & 0\\0& \lambda\end{pmatrix}$, i.e. diagonalisable since $\mu_{A}$ has no multiple roots.
 
-\subsection{General brute-force algorithm for computing the Jordan canonical form $J$ for a matrix $A\in \mathbb C^{n\times n}$ and an invertible matrix $P$ such that $P^{-1}AP=J$ if you know all the eigenvalues.}
+\subsection{General brute-force algorithm for computing the Jordan canonical form $J$ for a matrix $A\in \mathbb C^{n\times n}$ and an invertible matrix $P$ such that $P^{-1}AP=J$ if you know all the eigenvalues}
 \begin{enumerate}
     \item Computing $J$ is straightforward. For an eigenvalue $\lambda$ of $A$, the number of Jordan blocks of size/degree $i$ in $J$ is $2\dim N_i(\lambda,T)-\dim N_{i-1}(T,\lambda)-\dim N_{i+1}(T,\lambda)$.
     
