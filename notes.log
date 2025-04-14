@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.5.16)  17 MAR 2025 01:10
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.5.16)  11 APR 2025 12:39
  system commands enabled.
 **notes.tex
 (./notes.tex
@@ -58,6 +58,14 @@ luaotfload | db : Font names database loaded from /home/erwin/.texlive2024/texmf
 \belowcaptionskip=\skip49
 \bibindent=\dimen139
 )
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+2.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+))
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks17
@@ -471,38 +479,167 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutvoffset=\dimen257
 \Gm@dimlist=\toks39
 )
-\c@defn=\count291
+(/usr/local/texlive/2024/texmf-dist/tex/latex/iwona/iwona.sty
+Package: iwona 2005/10/03 v.1.2 Iwona package (MW)
+\c@mv@iwona=\count291
+\c@mv@iwonabold=\count292
+LaTeX Font Info:    Overwriting symbol font `operators' in version `iwona'
+(Font)                  OT1/cmr/m/n --> OT1/iwonam/m/n on input line 58.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `iwona'
+(Font)                  OML/cmm/m/it --> OML/iwona/m/it on input line 59.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `iwona'
+(Font)                  OMS/cmsy/m/n --> OMS/iwona/m/n on input line 60.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `iwona'
+(Font)                  OMX/cmex/m/n --> OMX/iwona/m/n on input line 61.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `iwonabold'
+(Font)                  OT1/cmr/m/n --> OT1/iwonam/b/n on input line 62.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `iwonabold'
+(Font)                  OML/cmm/m/it --> OML/iwona/b/it on input line 63.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `iwonabold'
+(Font)                  OMS/cmsy/m/n --> OMS/iwona/b/n on input line 64.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `iwonabol
+d'
+(Font)                  OMX/cmex/m/n --> OMX/iwona/b/n on input line 65.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `iwona'
+(Font)                  OT1/cmr/bx/n --> OT1/iwona/bx/n on input line 67.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `iwona'
+(Font)                  OT1/cmss/m/n --> OT1/iwona/m/n on input line 68.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `iwona'
+(Font)                  OT1/cmr/m/it --> OT1/iwona/m/it on input line 69.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `iwona'
+(Font)                  OT1/cmtt/m/n --> OT1/iwona/m/n on input line 70.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `iwonabold'
+(Font)                  OT1/cmss/m/n --> OT1/iwona/bx/n on input line 71.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `iwonabold'
+(Font)                  OT1/cmr/m/it --> OT1/iwona/bx/it on input line 72.
+)
+(/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/cmbright.sty
+Package: cmbright 2005/04/13 v8.1 (WaS)
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 29.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/iwonam/m/n --> OT1/cmbr/m/n on input line 29.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/iwonam/b/n --> OT1/cmbr/m/n on input line 29.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `iwona'
+(Font)                  OT1/iwonam/m/n --> OT1/cmbr/m/n on input line 29.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `iwonabold'
+(Font)                  OT1/iwonam/b/n --> OT1/cmbr/m/n on input line 29.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 30.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/iwona/m/it --> OML/cmbrm/m/it on input line 30.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/iwona/b/it --> OML/cmbrm/m/it on input line 30.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `iwona'
+(Font)                  OML/iwona/m/it --> OML/cmbrm/m/it on input line 30.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `iwonabold'
+(Font)                  OML/iwona/b/it --> OML/cmbrm/m/it on input line 30.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmbrm/m/it --> OML/cmbrm/b/it on input line 31.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 32.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/iwona/m/n --> OMS/cmbrs/m/n on input line 32.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/iwona/b/n --> OMS/cmbrs/m/n on input line 32.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `iwona'
+(Font)                  OMS/iwona/m/n --> OMS/cmbrs/m/n on input line 32.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `iwonabold'
+(Font)                  OMS/iwona/b/n --> OMS/cmbrs/m/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/iwona/m/it --> OT1/cmbr/m/sl on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/iwona/bx/it --> OT1/cmbr/m/sl on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `iwona'
+(Font)                  OT1/iwona/m/it --> OT1/cmbr/m/sl on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `iwonabold'
+(Font)                  OT1/iwona/bx/it --> OT1/cmbr/m/sl on input line 33.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/iwona/bx/n --> OT1/cmbr/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/cmbr/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `iwona'
+(Font)                  OT1/iwona/bx/n --> OT1/cmbr/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `iwonabold'
+(Font)                  OT1/cmr/bx/n --> OT1/cmbr/bx/n on input line 34.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/iwona/m/n --> OT1/cmtl/m/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/cmtl/m/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `iwona'
+(Font)                  OT1/iwona/m/n --> OT1/cmtl/m/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `iwonabold'
+(Font)                  OT1/cmtt/m/n --> OT1/cmtl/m/n on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \alpha on input line 37.
+LaTeX Font Info:    Redeclaring math symbol \beta on input line 38.
+LaTeX Font Info:    Redeclaring math symbol \gamma on input line 39.
+LaTeX Font Info:    Redeclaring math symbol \delta on input line 40.
+LaTeX Font Info:    Redeclaring math symbol \epsilon on input line 41.
+LaTeX Font Info:    Redeclaring math symbol \zeta on input line 42.
+LaTeX Font Info:    Redeclaring math symbol \eta on input line 43.
+LaTeX Font Info:    Redeclaring math symbol \theta on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \iota on input line 45.
+LaTeX Font Info:    Redeclaring math symbol \kappa on input line 46.
+LaTeX Font Info:    Redeclaring math symbol \lambda on input line 47.
+LaTeX Font Info:    Redeclaring math symbol \mu on input line 48.
+LaTeX Font Info:    Redeclaring math symbol \nu on input line 49.
+LaTeX Font Info:    Redeclaring math symbol \xi on input line 50.
+LaTeX Font Info:    Redeclaring math symbol \pi on input line 51.
+LaTeX Font Info:    Redeclaring math symbol \rho on input line 52.
+LaTeX Font Info:    Redeclaring math symbol \sigma on input line 53.
+LaTeX Font Info:    Redeclaring math symbol \tau on input line 54.
+LaTeX Font Info:    Redeclaring math symbol \upsilon on input line 55.
+LaTeX Font Info:    Redeclaring math symbol \phi on input line 56.
+LaTeX Font Info:    Redeclaring math symbol \chi on input line 57.
+LaTeX Font Info:    Redeclaring math symbol \psi on input line 58.
+LaTeX Font Info:    Redeclaring math symbol \omega on input line 59.
+LaTeX Font Info:    Redeclaring math symbol \varepsilon on input line 60.
+LaTeX Font Info:    Redeclaring math symbol \vartheta on input line 61.
+LaTeX Font Info:    Redeclaring math symbol \varpi on input line 62.
+LaTeX Font Info:    Redeclaring math symbol \varrho on input line 63.
+LaTeX Font Info:    Redeclaring math symbol \varsigma on input line 64.
+LaTeX Font Info:    Redeclaring math symbol \varphi on input line 65.
+LaTeX Info: Redefining \LaTeX on input line 129.
+LaTeX Info: Redefining \LaTeXe on input line 139.
+LaTeX Font Info:    Trying to load font information for T1+cmbr on input line 1
+44.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/t1cmbr.fd
+File: t1cmbr.fd 2005/04/13 v8.1 (WaS)
+))
+\c@defn=\count293
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2024-04-11 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count292
+\l__color_backend_stack_int=\count294
 Inserting `l3color' in `luaotfload.parse_color'.
 \l__pdf_internal_box=\box58
 )
 (./notes.aux)
 \openout1 = notes.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 52.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 5
-2.
+7.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
@@ -521,32 +658,56 @@ Package graphics Info: Driver file: luatex.def on input line 107.
 \Gin@req@height=\dimen258
 \Gin@req@width=\dimen259
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 52.
+LaTeX Font Info:    Trying to load font information for OT1+cmbr on input line 
+57.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/ot1cmbr.fd
+File: ot1cmbr.fd 2005/04/13 v8.1 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for OML+cmbrm on input line
+ 57.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/omlcmbrm.fd
+File: omlcmbrm.fd 2005/04/13 v8.1 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for OMS+cmbrs on input line
+ 57.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/omscmbrs.fd
+File: omscmbrs.fd 2005/04/13 v8.1 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for OMX+iwona on input line
+ 57.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/iwona/omxiwona.fd
+File: omxiwona.fd 2008/07/22 v0.995 font definition file for OMX/iwona (MW)
+)
+LaTeX Font Info:    Trying to load font information for U+msa on input line 57.
 
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 52.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 57.
 
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Package xypdf Info: Line width: 0.39998pt on input line 52.
+Package xypdf Info: Line width: 0.39998pt on input line 57.
 
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count293
+\scratchcounter=\count295
 \scratchdimen=\dimen260
 \scratchbox=\box59
-\nofMPsegments=\count294
-\nofMParguments=\count295
+\nofMPsegments=\count296
+\nofMParguments=\count297
 \everyMPshowfont=\toks40
-\MPscratchCnt=\count296
+\MPscratchCnt=\count298
 \MPscratchDim=\dimen261
-\MPnumerator=\count297
-\makeMPintoPDFobject=\count298
+\MPnumerator=\count299
+\makeMPintoPDFobject=\count300
 \everyMPtoPDFconversion=\toks41
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -591,14 +752,30 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(./notes.toc)
+LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <14.4> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 62.
+(./notes.toc
+LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 2.
+)
 \tf@toc=\write4
 
 \openout4 = notes.toc
  [1
 
-{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1]
-Underfull \hbox (badness 10000) in paragraph at lines 156--158
+{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+LaTeX Font Info:    Trying to load font information for TS1+cmbr on input line 
+69.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/cmbright/ts1cmbr.fd
+File: ts1cmbr.fd 2005/04/13 v8.1 (WaS)
+)
+LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <12> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 81.
+[1]
+LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 136.
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
 
  []
 
@@ -610,23 +787,16 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 670.
-
-
-Overfull \hbox (12.7576pt too wide) in paragraph at lines 713--714
-\TU/lmr/m/n/10 So $\OML/cmm/m/it/10 J \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 P[]AP$
- \TU/lmr/m/n/10 and $\OML/cmm/m/it/10 []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT
-1/cmr/m/n/10 ) = (\OML/cmm/m/it/10 x \OT1/cmr/m/n/10 + 2)[]$\TU/lmr/m/n/10 . We have $\OML/cmm/m/it/10 A[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 PJ[]P[]$ \TU/lmr/m/n/10 and $\OML/cmm/m/it/10 J[] \OT1/cmr/m/n/10 = []$
- []
+(amsmath)                 on input line 675.
 
 [11] [12] [13] [14]
-Underfull \hbox (badness 10000) in paragraph at lines 989--990
+Underfull \hbox (badness 10000) in paragraph at lines 994--995
 
  []
 
 [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29]
-[30] <xymatrix 3x2 135> <xymatrix 5x2 218> [31] <xymatrix 3x1 89> <xymatrix
-3x1 89> [32] <xymatrix 3x2 320> [33] [34] <xymatrix 2x2 66> [35] <xymatrix 2x1
+[30] <xymatrix 3x2 135> [31] <xymatrix 5x2 218> <xymatrix 3x1 89> <xymatrix
+3x1 89> [32] <xymatrix 3x2 320> [33] [34] [35] <xymatrix 2x2 66> <xymatrix 2x1
 51> <xymatrix 2x1 51> <xymatrix 2x1 51> [36] (./notes.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
@@ -635,49 +805,42 @@ L3 programming layer <2024-04-11>
 )
 
 Here is how much of LuaTeX's memory you used:
- 8092 strings out of 476381
+ 8584 strings out of 476381
  100000,1977958 words of node,token memory allocated
- 2110 words of node memory still in use:
-   12 hlist, 2 vlist, 3 rule, 7 glue, 6 kern, 2 sub_mlist, 1 glyph, 499 attribut
-e, 57 glue_spec, 252 attribute_list, 1 write, 1 pdf_literal, 1 pdf_save, 1 pdf_r
-estore nodes
-   avail lists: 2:1796,3:433,4:180,5:806,6:108,7:8765,8:61,9:1484,10:9,11:449
- 30027 multiletter control sequences out of 65536+600000
- 71 fonts using 4824783 bytes
- 57i,22n,62p,3234b,608s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.ot
-f></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.
-otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-regul
-ar.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bo
-ld.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman12-bo
-ld.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman12-re
-gular.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman17
--regular.otf></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cmext
-ra/cmex7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.p
-fb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
-local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
-l/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
-xlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
-e/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
-2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/202
-4/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texm
-f-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/t
-exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/202
-4/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2
-024/texmf-dist/fonts/type1/public/xypic/xydash10.pfb></usr/local/texlive/2024/te
-xmf-dist/fonts/type1/public/xypic/xyeuat10.pfb></usr/local/texlive/2024/texmf-di
-st/fonts/type1/public/xypic/xyeubt10.pfb>
-Output written on notes.pdf (37 pages, 448368 bytes).
+ 2663 words of node memory still in use:
+   12 hlist, 2 vlist, 3 rule, 7 glue, 6 kern, 2 sub_mlist, 44 glyph, 583 attribu
+te, 57 glue_spec, 294 attribute_list, 1 write, 1 pdf_literal, 1 pdf_save, 1 pdf_
+restore nodes
+   avail lists: 2:1958,3:438,4:176,5:704,6:106,7:8747,8:60,9:1482,10:10,11:426
+ 30469 multiletter control sequences out of 65536+600000
+ 76 fonts using 4778127 bytes
+ 57i,22n,62p,3234b,612s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/u
+sr/local/texlive/2024/texmf-dist/fonts/enc/dvips/iwona/ex-iwona.enc}{/usr/local/
+texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/te
+xlive/2024/texmf-dist/fonts/type1/public/hfbright/hfbr10.pfb></usr/local/texlive
+/2024/texmf-dist/fonts/type1/public/hfbright/hfbr8.pfb></usr/local/texlive/2024/
+texmf-dist/fonts/type1/public/hfbright/hfbrbs10.pfb></usr/local/texlive/2024/tex
+mf-dist/fonts/type1/public/hfbright/hfbrmi10.pfb></usr/local/texlive/2024/texmf-
+dist/fonts/type1/public/hfbright/hfbrmi8.pfb></usr/local/texlive/2024/texmf-dist
+/fonts/type1/public/hfbright/hfbrsy10.pfb></usr/local/texlive/2024/texmf-dist/fo
+nts/type1/public/hfbright/hfbrsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/
+type1/nowacki/iwona/iwonar.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/p
+ublic/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type
+1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2024/texmf-dist/fonts
+/type1/public/cm-super/sfbbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/typ
+e1/public/cm-super/sfbmo10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/p
+ublic/cm-super/sfbmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/publi
+c/cm-super/sfbmr17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm
+-super/sfbmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/xypic/x
+ydash10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/xypic/xyeuat1
+0.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/xypic/xyeubt10.pfb>
 
-PDF statistics: 258 PDF objects out of 1000 (max. 8388607)
- 174 compressed objects within 2 object streams
+Output written on notes.pdf (38 pages, 389934 bytes).
+
+PDF statistics: 205 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 

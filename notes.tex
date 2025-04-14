@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[british]{babel}
 \usepackage{amsthm}
@@ -10,6 +11,10 @@
 \usepackage[all]{xy}
 \usepackage{color}
 \usepackage{geometry}
+\usepackage[math]{iwona}
+\usepackage{cmbright}
+
+\renewcommand{\familydefault}{\sfdefault}
 
 \geometry{a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm}
 
@@ -26,13 +31,13 @@
 \setlength\parskip{0.3em}
 \setlength{\parindent}{0 pt}
 
-\newcommand{\Ker}{\text{Ker }}
-\newcommand{\adj}{\text{adj}\ }
-\newcommand{\lcm}{\text{lcm}\ }
-\newcommand{\id}{\text{id}}
-\newcommand{\im}{\text{im}}
-\newcommand{\spanset}{\text{span}}
-\newcommand{\rank}{\text{rank }}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\spanset}{\operatorname{span}}
+\newcommand{\rank}{\operatorname{rank}}
 
 \theoremstyle{definition}
 
@@ -266,7 +271,7 @@ For this assertion to make sense we need to prove a couple of things.
 
 $n^2$ is actually too big, we can have a better bound.
 
-\begin{thm} [Cayley–Hamilton]
+\begin{thm} [Cayley--Hamilton]
 	Given $A \in K^{n\times n}$, $c_{A}(A)=0$.
 \end{thm}
 
@@ -292,7 +297,7 @@ It's tempting to substitute $A$ for $x$ in $\det (A-xI_n)$ which is of course $0
 Now recall the definition of minimal polynomial and here's a sanity check for well-definedness.
 
 \begin{enumerate}
-	\item Set of nonzero $p$'s such that $p(A)=0$ is nonempty by Cayley–Hamilton. Thus by well-ordering principle there is a $p$ of minimal degree.
+	\item Set of nonzero $p$'s such that $p(A)=0$ is nonempty by Cayley--Hamilton. Thus by well-ordering principle there is a $p$ of minimal degree.
 	\item To make it monic we just scale it.
 	\item Uniqueness: if there were 2 distinct such $p,p'$ both nonzero, monic, of minimal degree $d$, then $p-p'$ is still nonzero but of smaller degree satisfying $p-p'(A)=p(A)-p'(A)=0$, a contradiction.
 \end{enumerate}
@@ -633,7 +638,7 @@ A=\begin{pmatrix}
 3&2&1\\0&3&1\\-1&-4&-1
 \end{pmatrix},
 \]
-then $c_{A}=(2-x)^2(1-x)$ and $\mu_{A}=(x-2)^2 (x-1)$ (can be acquired by Cayley–Hamilton theorem and check the two possibilities). Hence
+then $c_{A}=(2-x)^2(1-x)$ and $\mu_{A}=(x-2)^2 (x-1)$ (can be acquired by Cayley--Hamilton theorem and check the two possibilities). Hence
 \[
 J=\begin{pmatrix}
 2&1&0\\0&2&0\\0&0&1
@@ -1216,7 +1221,7 @@ We know that $r$ is constant, so it suffices to show that $t=t'$. We prove it by
     \]
     a contradiction since $V_1+V_2 \subset V$.
 \end{proof}
-This justify the name ``signature'' of $q$ for the ordered pair $(t,u)$.
+This justifies the name ``signature'' of $q$ for the ordered pair $(t,u)$.
 
 \subsection{Euclidean vector space and orthogonal transformations}
 \begin{defn}
@@ -1255,7 +1260,7 @@ where $0\leq \varphi < \pi$.
 \end{defn}
 So whenever you have a Euclidean space, you can talk about lengths and angles.
 
-\begin{thm}[Gram–Schmidt/orthonormalisation process]
+\begin{thm}[Gram--Schmidt/orthonormalisation process]
 We start with $g_1,\ldots,g_n$, some basis of a Euclidean vector space. Then $\exists$ an orthonormal basis $f_1,\ldots,f_n$ such that $\spanset \{g_1,\ldots,g_i\}=\spanset \{f_1,\ldots,f_i\}$ for $1\leq i\leq n$, and $f_i$'s are constructed from the $g_i$'s as followed:
 \begin{enumerate}
     \item Normalise the first vector: $f_1=\frac{g_1}{|g_1|}$
@@ -1288,7 +1293,7 @@ And we know $f_{r+1}$ is not zero by linear independence of $g_i$'s.
 If $e_1,\ldots,e_k$ is an orthonormal set of vectors in $V$, it can always be completed to an orthonormal basis $e_1,\ldots,e_k,e_{k+1},\ldots,e_n$ for $V$.
 \end{coro}
 \begin{proof}
-We can always complete $e_1,\ldots,e_k$ to a basis by first year linear algebra, then Gram–Schmidt it.
+We can always complete $e_1,\ldots,e_k$ to a basis by first year linear algebra, then Gram--Schmidt it.
 \end{proof}
 We now just need more definitions to see the usefulness of this process.
 \begin{defn}
@@ -1320,7 +1325,7 @@ Given an $n\times n$ matrix $A\in \mathbb R^{n^2}$, we can write it as a product
 \end{prop}
 This gives us a faster algorithm solving $Ax=b$: we can just solve $Rx=Q^Tb$ without having to take inverses and do eliminations.
 \begin{proof}
-First assume $A$ is invertible. Then columns of $A$ give us a basis $G=(g_1,\ldots,g_n)$ for $\mathbb R^n$. Then consider standard basis $E=(e_1,\ldots,e_n)$ and we can view $A$ as a basis change matrix $\mathcal M (\text{id}_V)_G^E$. Now Gram–Schmidt $G$ to get an orthonormal basis $F$. So
+First assume $A$ is invertible. Then columns of $A$ give us a basis $G=(g_1,\ldots,g_n)$ for $\mathbb R^n$. Then consider standard basis $E=(e_1,\ldots,e_n)$ and we can view $A$ as a basis change matrix $\mathcal M (\text{id}_V)_G^E$. Now Gram--Schmidt $G$ to get an orthonormal basis $F$. So
 \[
 A=\mathcal M (\text{id}_V)_F^E \cdot \mathcal M (\text{id}_V)_G^F .
 \]
@@ -1337,7 +1342,7 @@ g_1 & g_2 & g_3
 -1 & 0 & -2\\ 2 & 0 & -1\\ 0 & -2 & -2
 \end{pmatrix}
 \]
-is non-singular. Then we Gram–Schmidt the columns of $A$:
+is non-singular. Then we Gram--Schmidt the columns of $A$:
 \[
 \begin{aligned}
 f_1&=\frac{g_1}{|g_1|} = \frac{1}{\sqrt 5} \begin{pmatrix}
@@ -1500,7 +1505,7 @@ We do this step by step. (Instead of adding apostrophes crazily, we simply call 
         x_1' & \cdots & x_r' & x_{r+1}'
     \end{array}
     \]
-    and $x_i'$'s form a orthonormal set. We then extend it to a basis, then Gram–Schmidt it to get an orthonormal basis $x_1',\ldots,x_{r+1}',\ldots,x_n'$. Now the linear form is just $\beta x_{r+1}'$.
+    and $x_i'$'s form a orthonormal set. We then extend it to a basis, then Gram--Schmidt it to get an orthonormal basis $x_1',\ldots,x_{r+1}',\ldots,x_n'$. Now the linear form is just $\beta x_{r+1}'$.
     \item Dividing by the coefficient of the linear form (if there is one) we can now have the form
     \[
     \sum_{i=1}^r \alpha_i x_i^2 -x_{r+1} + \gamma =0.
@@ -1640,7 +1645,7 @@ since $T^\ast T$ kills the same vectors, and if we put $f_1':= T(e_1), \ldots, f
 \[
 \langle f_i' , f_j' \rangle_W = e_i \ast e_j = \alpha_i \delta_{ij}
 \]
-where $\delta$ is Kronecker and $\alpha_i$'s are positive. So $f_i'$'s are an orthogonal set of vectors of nonzero in $W$. Then if we normalise them to $f_i:=\frac{1}{\sqrt{\alpha_i}} f_i'$ we have an orthonormal set. In particular they are linearly independent, so $\rank T=n$. We can then extend it to an orthonormal basis of $W$ using Gram–Schmidt.
+where $\delta$ is Kronecker and $\alpha_i$'s are positive. So $f_i'$'s are an orthogonal set of vectors of nonzero in $W$. Then if we normalise them to $f_i:=\frac{1}{\sqrt{\alpha_i}} f_i'$ we have an orthonormal set. In particular they are linearly independent, so $\rank T=n$. We can then extend it to an orthonormal basis of $W$ using Gram--Schmidt.
 
 The only thing we haven't shown is uniqueness, but this can be done quickly. If we have a described decomposition, then $A^T A= QD^T P^T PDQ^T=QD^T D Q^{-1}$, so $D^TD=D^2$ is similar to $A^TA$, meaning they have the same eigenvalues.
 \end{proof}
