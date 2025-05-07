@@ -11,22 +11,22 @@
 \contentsline {subsection}{\numberline {2.3}Jordan canonical form}{6}{}%
 \contentsline {subsection}{\numberline {2.4}General brute-force algorithm for computing the Jordan canonical form $J$ for a matrix $A\in \mathbb C^{n\times n}$ and an invertible matrix $P$ such that $P^{-1}AP=J$ if you know all the eigenvalues}{9}{}%
 \contentsline {section}{\numberline {3}Functions of matrices}{10}{}%
-\contentsline {subsection}{\numberline {3.1}Solving systems of linear differential equations with constant coefficients using exponential function of a matrix}{12}{}%
+\contentsline {subsection}{\numberline {3.1}Solving systems of linear differential equations with constant coefficients using matrix exponentials}{13}{}%
 \contentsline {section}{\numberline {4}Bilinear maps and quadratic forms}{15}{}%
 \contentsline {subsection}{\numberline {4.1}Quadratic forms}{16}{}%
 \contentsline {subsection}{\numberline {4.2}Nice bases}{17}{}%
-\contentsline {subsubsection}{\numberline {4.2.1}How to find such a basis for $\tau $/$q$? (which is not identically zero)}{17}{}%
-\contentsline {subsubsection}{\numberline {4.2.2}Consequences of the existence of such nice bases for $K=\mathbb C$ or $\mathbb R$}{18}{}%
-\contentsline {subsection}{\numberline {4.3}Euclidean vector space and orthogonal transformations}{19}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}How to find such a basis for $\tau $/$q$? (which is not identically zero)}{18}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}Consequences of the existence of such nice bases for $K=\mathbb C$ or $\mathbb R$}{19}{}%
+\contentsline {subsection}{\numberline {4.3}Euclidean vector space and orthogonal transformations}{20}{}%
 \contentsline {subsection}{\numberline {4.4}Nice orthonormal bases/diagonalisation of self-adjoint operators}{22}{}%
 \contentsline {subsection}{\numberline {4.5}Geometry of quadrics in real Euclidean vector space}{23}{}%
-\contentsline {subsection}{\numberline {4.6}Singular value decomposition}{25}{}%
+\contentsline {subsection}{\numberline {4.6}Singular value decomposition}{26}{}%
 \contentsline {subsection}{\numberline {4.7}The complex story}{27}{}%
 \contentsline {section}{\numberline {5}Structure theory of finitely generated abelian groups, Smith normal form}{27}{}%
 \contentsline {subsection}{\numberline {5.1}Definitions}{27}{}%
-\contentsline {subsection}{\numberline {5.2}Subgroups, cosets, quotient groups}{28}{}%
+\contentsline {subsection}{\numberline {5.2}Subgroups, cosets, quotient groups}{29}{}%
 \contentsline {subsection}{\numberline {5.3}First isomorphism theorem}{30}{}%
-\contentsline {subsection}{\numberline {5.4}Finitely generated free abelian groups}{30}{}%
+\contentsline {subsection}{\numberline {5.4}Finitely generated free abelian groups}{31}{}%
 \contentsline {subsection}{\numberline {5.5}(Unimodular) Smith normal form for integer matrices, structure of finitely generated abelian groups}{32}{}%
 \contentsline {subsubsection}{\numberline {5.5.1}Motivation and preparation}{32}{}%
 \contentsline {subsubsection}{\numberline {5.5.2}Smith normal form}{33}{}%
